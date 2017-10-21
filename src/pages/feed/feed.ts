@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { MovieProvider } from '../../providers/movie/movie';
 
 /**
  * Generated class for the FeedPage page.
@@ -12,6 +13,9 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 @Component({
   selector: 'page-feed',
   templateUrl: 'feed.html',
+  providers: [
+    MovieProvider
+  ]
 })
 export class FeedPage {
 
@@ -26,18 +30,26 @@ export class FeedPage {
     cardTimePast: "11h ago"
   }
 
-  public username:string = "Heracles";
+  public movieList = new Array<any>();
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  public username: string = "Heracles";
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, private MovieProvider: MovieProvider) {
   }
 
-  public shittyFunction(a:number, b:number): void{
-    alert(a+b);
+  public shittyFunction(a: number, b: number): void {
+    alert(a + b);
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad FeedPage');
-    this.shittyFunction(12, 20);
+    this.MovieProvider.getPopularMovies().subscribe(data => {
+      const response = (data as any);
+      const returnedObj = JSON.parse(response._body);
+      this.movieList = returnedObj.results;
+      console.log(returnedObj);
+    }, error => {
+      console.log(error);
+    })
   }
 
 }

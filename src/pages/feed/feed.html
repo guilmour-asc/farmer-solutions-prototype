@@ -14,40 +14,37 @@
 
 
 <ion-content padding>
-  <ion-card>
+  <ion-card *ngFor="let movie of movieList">
 
     <ion-item>
       <ion-avatar item-start>
         <img src={{cardObject.cardAvatar}}>
       </ion-avatar>
-      <h2>{{cardObject.cardUser}}</h2>
-      <p>{{cardObject.cardDate}}</p>
+      <h2>{{movie.original_title}}</h2>
+      <p>{{movie.genre_ids[0]}}</p>
     </ion-item>
 
-    <img src={{cardObject.cardImage}}>
+    <img [src]="'https://image.tmdb.org/t/p/w500' + movie.backdrop_path">
 
     <ion-card-content>
-      <p>{{cardObject.cardText}}
+      <p style="text-align: justify">{{movie.overview}}
       </p>
     </ion-card-content>
 
     <ion-row>
       <ion-col>
         <button ion-button icon-left clear small>
-          <ion-icon name="thumbs-up"></ion-icon>
-          <div>{{cardObject.cardLikes}} Likes</div>
+          <ion-icon name="calendar"></ion-icon>
+          {{movie.release_date}}
         </button>
       </ion-col>
+    </ion-row>
+    <ion-row>
       <ion-col>
         <button ion-button icon-left clear small>
-          <ion-icon name="text"></ion-icon>
-          <div>{{cardObject.cardComments}} Comments</div>
+          <ion-icon name="analytics"></ion-icon>
+            {{movie.vote_average}}
         </button>
-      </ion-col>
-      <ion-col center text-center>
-        <ion-note>
-          {{cardObject.cardTimePast}}
-        </ion-note>
       </ion-col>
     </ion-row>
 
