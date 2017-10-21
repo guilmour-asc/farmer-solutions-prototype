@@ -18,18 +18,16 @@
 
     <ion-item>
       <ion-avatar item-start>
-        <img src="assets/images/doggo.jpg">
+        <img src={{cardObject.cardAvatar}}>
       </ion-avatar>
-      <h2>{{username}}</h2>
-      <p>November 5, 300 b.C.</p>
+      <h2>{{cardObject.cardUser}}</h2>
+      <p>{{cardObject.cardDate}}</p>
     </ion-item>
 
-    <img src="assets/images/autumn.jpg">
+    <img src={{cardObject.cardImage}}>
 
     <ion-card-content>
-      <p>Antaeus was supposed to fuck-up my "12 labors" shit, bitching 'bout his invincibility and all...
-        Well, fuck that, I knew he was Gaia's kiddo, so Antaeus and no ground would be my way to turn the table.
-        He got lift, I smashed the shit outta him. I won. He lost. That fucking rooster...
+      <p>{{cardObject.cardText}}
       </p>
     </ion-card-content>
 
@@ -37,18 +35,18 @@
       <ion-col>
         <button ion-button icon-left clear small>
           <ion-icon name="thumbs-up"></ion-icon>
-          <div>12 Likes</div>
+          <div>{{cardObject.cardLikes}} Likes</div>
         </button>
       </ion-col>
       <ion-col>
         <button ion-button icon-left clear small>
           <ion-icon name="text"></ion-icon>
-          <div>4 Comments</div>
+          <div>{{cardObject.cardComments}} Comments</div>
         </button>
       </ion-col>
       <ion-col center text-center>
         <ion-note>
-          11h ago
+          {{cardObject.cardTimePast}}
         </ion-note>
       </ion-col>
     </ion-row>
