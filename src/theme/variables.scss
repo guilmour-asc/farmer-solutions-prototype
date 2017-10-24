@@ -32,17 +32,16 @@ $app-direction: ltr;
 // to match your app's branding. Ionic uses a Sass map of
 // colors so you can add, rename and remove colors as needed.
 // The "primary" color is the only required color in the map.
-$tabs-background: rgb(238, 93, 117);
-$tabs-tab-color-inactive: rgb(255, 255, 255);
+$tabs-background: rgb(250, 241, 212);
+$tabs-tab-color-inactive: rgba(0, 0, 0, 0.75);
 
-$toolbar-background: rgb(238, 93, 117);
-$toolbar-border-color: rgb(184, 41, 65);
+$toolbar-background: rgb(250, 241, 212);
 
-$background-color: rgb(253, 243, 230);
+// $background-color: rgb(255, 255, 255);
 $list-background-color: rgba(255, 255, 255, 0.25);
 
 $colors: (
-  primary:    #aec960,
+  primary:    rgb(255, 220, 0),
   secondary:  #4edf96,
   danger:     #ff4949,
   light:      #f4f4f4,
