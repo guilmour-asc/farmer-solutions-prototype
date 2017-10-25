@@ -1,0 +1,31 @@
+<!--
+  Generated template for the SettingsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-menu [content]="content" class="side-menu-gradient" type="overlay">
+  <ion-header>
+    <ion-navbar>
+      <button ion-button menuToggle icon-only>
+        <ion-icon name='return-left'></ion-icon>
+      </button>
+      <ion-title>Menu</ion-title>
+    </ion-navbar>
+  </ion-header>
+  <ion-content>
+    <ion-list no-lines>
+      <button ion-item (click)="openPage(friendsPage)">
+        Time de trabalho
+      </button>
+      <button ion-item (click)="openPageAbout()">
+        Sobre o aplicativo
+      </button>
+      <button ion-item (click)="logoff()">
+        Sair (Logoff)
+      </button>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-nav id="nav" #content [root]="rootPage"></ion-nav>

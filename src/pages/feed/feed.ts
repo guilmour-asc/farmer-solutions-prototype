@@ -20,7 +20,7 @@ import { MovieProvider } from '../../providers/movie/movie';
 export class FeedPage {
 
   public cardObject = {
-    cardAvatar: "assets/images/doggo.jpg",
+    cardAvatar: "assets/images/misc/doggo.jpg",
     cardUser: "Heracles",
     cardDate: "November 5, 300 b.C.",
     cardImage: "assets/images/autumn.jpg",
