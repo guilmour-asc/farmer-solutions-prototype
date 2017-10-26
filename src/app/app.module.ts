@@ -16,6 +16,7 @@ import { IntroPageModule } from '../pages/intro/intro.module';
 import { ConfigProvider } from '../providers/config/config';
 import { SettingsPageModule } from '../pages/settings/settings.module';
 import { UserProfilePageModule } from '../pages/user-profile/user-profile.module';
+import { CategoriesPageModule } from '../pages/categories/categories.module';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { UserProfilePageModule } from '../pages/user-profile/user-profile.module
     IntroPageModule,
     HttpModule,
     SettingsPageModule,
-    UserProfilePageModule
+    UserProfilePageModule,
+    CategoriesPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
