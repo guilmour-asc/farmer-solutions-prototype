@@ -1,0 +1,4696 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Digital 3S Platform API Documentation",
+    "version": "0.8",
+    "title": "Digital 3S Platform API",
+    "termsOfService": "",
+    "contact": {
+      "name": "Ricardo Macedo",
+      "url": "https://www.solidaridadnetwork.org/",
+      "email": "ricardo.macedo@solidaridadnetwork.org"
+    }
+  },
+  "host": "hml.solidaridad.cloud",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "OAuth2": []
+    }
+  ],
+  "paths": {
+    "/a/oauth2/authorize/": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Authorization code request",
+        "produces": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "response_type",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "The value MUST be set to \"code\"."
+          },
+          {
+            "name": "client_id",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "The client/application identifier."
+          },
+          {
+            "name": "redirect_uri",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "The URI that the user agent will be redirected after completion of the authentication flow in the server."
+          },
+          {
+            "name": "scope",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "The scope of access required. Currently, it has no effect."
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "Recommended to avoid CSRF (Cross-site request forgery). The client must be able to validate it."
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": false,
+            "type": "string",
+            "description": "The content type of the request, MUST be \"application/x-www-form-urlencoded\".",
+            "x-example": "application/x-www-form-urlencoded"
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "Any attempt will return a 302 response.",
+            "schema": {
+              "required": [
+                "code"
+              ],
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "description": "The authorization code of the user agent for the client."
+                },
+                "state": {
+                  "type": "string",
+                  "description": "The state of the request. Required if passed on the original request."
+                },
+                "error": {
+                  "type": "string",
+                  "description": "If ANY error occurs, instead of \"code\", the response will contain an \"error\" key."
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/a/oauth2/token/": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Resource owner password credentials",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "grant_type",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "This value must be either \"password\" or \"refresh_token\"",
+            "x-example": "password"
+          },
+          {
+            "name": "username",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "The username/email/mobile number. Required if \"grant_type\" is \"password\"."
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "The password. Required if \"grant_type\" is \"password\"."
+          },
+          {
+            "name": "client_id",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "The client unique ID number."
+          },
+          {
+            "name": "client_secret",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "The client secret."
+          },
+          {
+            "name": "refresh_token",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "The refresh token value. Required if \"grant_type\" is \"refresh_token\"."
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": false,
+            "type": "string",
+            "description": "MUST be \"application/x-www-form-urlencoded\"",
+            "x-example": "application/x-www-form-urlencoded"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response.",
+            "schema": {
+              "required": [
+                "access_token",
+                "expires_in",
+                "refresh_token",
+                "token_type"
+              ],
+              "type": "object",
+              "properties": {
+                "access_token": {
+                  "type": "string",
+                  "description": "The token value to be used."
+                },
+                "token_type": {
+                  "type": "string",
+                  "description": "The type of token."
+                },
+                "expires_in": {
+                  "type": "integer",
+                  "description": "The number of seconds until token expiry."
+                },
+                "refresh_token": {
+                  "type": "string",
+                  "description": "The token issued to refresh access expiry."
+                },
+                "scope": {
+                  "type": "string",
+                  "description": "The token scope, not currently used."
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/a/oauth2/revoke_token/": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Token revocation",
+        "parameters": [
+          {
+            "name": "grant_type",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "MUST be \"refresh_token\"",
+            "x-example": "refresh_token"
+          },
+          {
+            "name": "refresh_token",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "The refresh token issued to the client."
+          },
+          {
+            "name": "scope",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "The scope of access, not currently used."
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": false,
+            "type": "string",
+            "x-example": "application/x-www-form-urlencoded"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      }
+    },
+    "/raw/": {
+      "post": {
+        "tags": [
+          "Raw Documents"
+        ],
+        "summary": "(user) Document creation",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "description": "Document type"
+                },
+                "header": {
+                  "type": "object",
+                  "description": "The header dictionary"
+                },
+                "body": {
+                  "type": "object",
+                  "description": "The body dictionary"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "string",
+                  "description": "A successful operation will come with this value equal to 1"
+                },
+                "hash": {
+                  "type": "string",
+                  "description": "The hash ID of the document"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/raw/{objID}/": {
+      "get": {
+        "tags": [
+          "Raw Documents"
+        ],
+        "summary": "(user) Document retrieval",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "type": "object",
+              "description": "When successful, the body will contain the desired document."
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "objID",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/docs/{scope}/{alias}/": {
+      "get": {
+        "tags": [
+          "Documents"
+        ],
+        "summary": "(user) Document retrieval",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "type": "object",
+              "description": "When successful, the body will contain the desired document."
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Documents"
+        ],
+        "summary": "(user) Document creation or update",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "description": "Document type"
+                },
+                "header": {
+                  "type": "object",
+                  "description": "The header dictionary"
+                },
+                "body": {
+                  "type": "object",
+                  "description": "The body dictionary"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "string",
+                  "description": "A successful operation will come with this value equal to 1"
+                },
+                "hash": {
+                  "type": "string",
+                  "description": "The hash ID of the document"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Documents"
+        ],
+        "summary": "(user) Document creation or update",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "description": "Document type"
+                },
+                "header": {
+                  "type": "object",
+                  "description": "The header dictionary"
+                },
+                "body": {
+                  "type": "object",
+                  "description": "The body dictionary"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "string",
+                  "description": "A successful operation will come with this value equal to 1"
+                },
+                "hash": {
+                  "type": "string",
+                  "description": "The hash ID of the document"
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "scope",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "alias",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/core/commodity/": {
+      "get": {
+        "tags": [
+          "Commodity"
+        ],
+        "summary": "(user) Retrieve list of available commodities",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "type": "array",
+              "items": {
+                "required": [
+                  "code",
+                  "name"
+                ],
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string",
+                    "description": "Commodity code"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Commodity name"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Commodity"
+        ],
+        "summary": "(admin) Create new commodity",
+        "consumes": [],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "name"
+              ],
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "description": "Commodity code",
+                  "example": "sugarcane"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Commodity name",
+                  "example": "Sugarcane"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      }
+    },
+    "/core/commodity/{commodityCode}/": {
+      "get": {
+        "tags": [
+          "Commodity"
+        ],
+        "summary": "(user) Retrieve commodity info",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "required": [
+                "name"
+              ],
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Commodity name"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Commodity"
+        ],
+        "summary": "(admin) Update commodity info",
+        "consumes": [],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "name"
+              ],
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "description": "Commodity code"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Commodity name"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Commodity"
+        ],
+        "summary": "(admin) Delete commodity",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "commodityCode",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/core/user/": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "(user) Get the current user info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "description": "Username"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Name of the user"
+                },
+                "email": {
+                  "type": "string",
+                  "description": "E-mail address"
+                },
+                "mobile": {
+                  "type": "string",
+                  "description": "Mobile phone number"
+                },
+                "company": {
+                  "type": "string",
+                  "description": "Company"
+                },
+                "birth_date": {
+                  "type": "string",
+                  "format": "date",
+                  "description": "Date of birth in ISO format"
+                },
+                "person_type": {
+                  "type": "string",
+                  "description": "Person type, maximum 2 letters"
+                },
+                "sex": {
+                  "type": "string",
+                  "description": "The sex of the individual, when applicable",
+                  "enum": [
+                    "F",
+                    "M",
+                    "N"
+                  ]
+                },
+                "language": {
+                  "type": "string",
+                  "description": "The language as a POSIX Locale tag"
+                },
+                "permissions": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "description": "Permission ID"
+                      },
+                      "code": {
+                        "type": "string",
+                        "description": "Permission code"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Permission name"
+                      },
+                      "data": {
+                        "type": "string",
+                        "description": "Permission data"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Create new user",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "name",
+                "password",
+                "username"
+              ],
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "description": "Username"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Name of the user"
+                },
+                "email": {
+                  "type": "string",
+                  "description": "E-mail address"
+                },
+                "password": {
+                  "type": "string",
+                  "description": "Password"
+                },
+                "mobile": {
+                  "type": "string",
+                  "description": "Mobile phone number"
+                },
+                "company": {
+                  "type": "string",
+                  "description": "Company"
+                },
+                "birth_date": {
+                  "type": "string",
+                  "format": "date",
+                  "description": "Date of birth in ISO format",
+                  "example": "\"1970-01-20\""
+                },
+                "person_type": {
+                  "type": "string",
+                  "description": "Person type, maximum 2 letters"
+                },
+                "sex": {
+                  "type": "string",
+                  "description": "The sex of the individual, when applicable",
+                  "enum": [
+                    "F",
+                    "M",
+                    "N"
+                  ]
+                },
+                "language": {
+                  "type": "string",
+                  "description": "The language as a POSIX Locale tag",
+                  "default": "en_US",
+                  "example": "en_US"
+                },
+                "client_id": {
+                  "type": "string",
+                  "description": "Origin application Client ID"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Status 201",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "security": []
+      },
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "(user) Update the current user info",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "description": "Username"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Name of the user"
+                },
+                "email": {
+                  "type": "string",
+                  "description": "E-mail address"
+                },
+                "mobile": {
+                  "type": "string",
+                  "description": "Mobile phone number"
+                },
+                "company": {
+                  "type": "string",
+                  "description": "Company"
+                },
+                "birth_date": {
+                  "type": "string",
+                  "format": "date",
+                  "description": "Date of birth in ISO format",
+                  "example": "\"1970-01-20\""
+                },
+                "person_type": {
+                  "type": "string",
+                  "description": "Person type, maximum 2 letters"
+                },
+                "sex": {
+                  "type": "string",
+                  "description": "The sex of the individual, when applicable",
+                  "enum": [
+                    "F",
+                    "M",
+                    "N"
+                  ]
+                },
+                "language": {
+                  "type": "string",
+                  "description": "The language as a POSIX Locale tag",
+                  "default": "en_US",
+                  "example": "en_US"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      }
+    },
+    "/core/user/groups/": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "(user) Get the current user groups",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Group ID"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Group name"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/core/user/changepassword/": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "(user) Change the current user password",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "password": {
+                  "type": "string",
+                  "description": "The new password"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      }
+    },
+    "/core/user/resetpassword/": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Ask for reset password",
+        "consumes": [],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "username"
+              ],
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "description": "May be either a username, an e-mail address or a mobile phone number"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        },
+        "security": []
+      }
+    },
+    "/core/user/resetpassword/code/": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Verify reset password code",
+        "consumes": [],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "code"
+              ],
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "description": "The code sent by e-mail or SMS"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Valid code",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "type": "string",
+                  "description": "A token for password change"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid code"
+          }
+        },
+        "security": []
+      }
+    },
+    "/core/user/resetpassword/password/": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Change password with token",
+        "consumes": [],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "token"
+              ],
+              "properties": {
+                "token": {
+                  "type": "string",
+                  "description": "The token received for password change"
+                },
+                "password": {
+                  "type": "string",
+                  "description": "User new password"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Valid token. Password changed.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "type": "string",
+                  "description": "A token for password change"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid token. Password NOT changed."
+          }
+        },
+        "security": []
+      }
+    },
+    "/core/user/{userId}/": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "(admin) Get user info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "description": "Username"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Name of the user"
+                },
+                "email": {
+                  "type": "string",
+                  "description": "E-mail address"
+                },
+                "mobile": {
+                  "type": "string",
+                  "description": "Mobile phone number"
+                },
+                "company": {
+                  "type": "string",
+                  "description": "Company"
+                },
+                "birth_date": {
+                  "type": "string",
+                  "format": "date",
+                  "description": "Date of birth in ISO format"
+                },
+                "person_type": {
+                  "type": "string",
+                  "description": "Person type, maximum 2 letters"
+                },
+                "sex": {
+                  "type": "string",
+                  "description": "The sex of the individual, when applicable",
+                  "enum": [
+                    "F",
+                    "M",
+                    "N"
+                  ]
+                },
+                "language": {
+                  "type": "string",
+                  "description": "The language as a POSIX Locale tag"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "(admin) Update user info",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "description": "Username"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Name of the user"
+                },
+                "email": {
+                  "type": "string",
+                  "description": "E-mail address"
+                },
+                "mobile": {
+                  "type": "string",
+                  "description": "Mobile phone number"
+                },
+                "company": {
+                  "type": "string",
+                  "description": "Company"
+                },
+                "birth_date": {
+                  "type": "string",
+                  "format": "date",
+                  "description": "Date of birth in ISO format",
+                  "example": "\"1970-01-20\""
+                },
+                "person_type": {
+                  "type": "string",
+                  "description": "Person type, maximum 2 letters"
+                },
+                "sex": {
+                  "type": "string",
+                  "description": "The sex of the individual, when applicable",
+                  "enum": [
+                    "F",
+                    "M",
+                    "N"
+                  ]
+                },
+                "language": {
+                  "type": "string",
+                  "description": "The language as a POSIX Locale tag",
+                  "default": "en_US",
+                  "example": "en_US"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "summary": "(admin) Delete user",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "userId",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "Can be either the userId or the username."
+        }
+      ]
+    },
+    "/core/user/{userId}/groups/": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "(admin) Get user groups",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Group ID"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Group name"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "userId",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "Can be either the userId or the username."
+        }
+      ]
+    },
+    "/core/user/{userId}/changepassword/": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "(admin) Change user password",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "password": {
+                  "type": "string",
+                  "description": "The new password"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "userId",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/core/user/{userId}/groups/add/": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "(admin) Add user to groups",
+        "consumes": [],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "description": "Group ID"
+              }
+            },
+            "x-examples": {
+              "application/json": "[23, 45]"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "userId",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/core/user/{userId}/groups/remove/": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "(admin) Remove user from groups",
+        "consumes": [],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "description": "Group ID"
+              }
+            },
+            "x-examples": {
+              "application/json": "[23, 45]"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "userId",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/core/property/": {
+      "post": {
+        "tags": [
+          "Property"
+        ],
+        "summary": "(user) Create new property",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "city",
+                "name"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Property name"
+                },
+                "address": {
+                  "type": "string",
+                  "description": "Property address"
+                },
+                "zipcode": {
+                  "type": "string",
+                  "description": "Property zipcode"
+                },
+                "district": {
+                  "type": "string",
+                  "description": "Property district"
+                },
+                "city": {
+                  "type": "string",
+                  "description": "The property city, state and country",
+                  "example": "Monroe, MI, USA"
+                },
+                "georef": {
+                  "type": "object",
+                  "description": "A GeoJSON object"
+                },
+                "owner": {
+                  "type": "integer",
+                  "description": "Property owner user ID"
+                },
+                "commodities": {
+                  "type": "array",
+                  "description": "Property's commodities",
+                  "items": {
+                    "type": "string",
+                    "description": "Commodities codes"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      }
+    },
+    "/core/property/{propertyId}/": {
+      "get": {
+        "tags": [
+          "Property"
+        ],
+        "summary": "(user) Get property info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "required": [
+                "units"
+              ],
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Property name"
+                },
+                "address": {
+                  "type": "string",
+                  "description": "Property address"
+                },
+                "zipcode": {
+                  "type": "string",
+                  "description": "Property zipcode"
+                },
+                "district": {
+                  "type": "string",
+                  "description": "Property district"
+                },
+                "geoname": {
+                  "type": "object",
+                  "description": "An object with exact location based on the Geonames.org database"
+                },
+                "city": {
+                  "type": "string",
+                  "description": "Property city string"
+                },
+                "georef": {
+                  "type": "object",
+                  "description": "GeoJSON object"
+                },
+                "units": {
+                  "type": "array",
+                  "description": "Property's units",
+                  "items": {
+                    "required": [
+                      "id"
+                    ],
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "description": "Unit id"
+                      },
+                      "commodity": {
+                        "type": "string",
+                        "description": "Unit commodity"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Property"
+        ],
+        "summary": "(user) Update property info",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "city",
+                "name"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Property name"
+                },
+                "address": {
+                  "type": "string",
+                  "description": "Property address"
+                },
+                "zipcode": {
+                  "type": "string",
+                  "description": "Property zipcode"
+                },
+                "district": {
+                  "type": "string",
+                  "description": "Property district"
+                },
+                "city": {
+                  "type": "string",
+                  "description": "The property's city, state and country",
+                  "example": "Monroe, MI, USA"
+                },
+                "georef": {
+                  "type": "object",
+                  "description": "A GeoJSON object"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Property"
+        ],
+        "summary": "(user) Delete property",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "propertyId",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/core/property/{propertyId}/groups/": {
+      "get": {
+        "tags": [
+          "Property"
+        ],
+        "summary": "(user) Get property groups",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "Group ID"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Group name"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "propertyId",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/core/property/{propertyId}/groups/add/": {
+      "post": {
+        "tags": [
+          "Property"
+        ],
+        "summary": "(admin) Add property to groups",
+        "consumes": [],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "description": "Group ID"
+              }
+            },
+            "x-examples": {
+              "application/json": "[23, 45]"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "propertyId",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/core/property/{propertyId}/groups/remove/": {
+      "post": {
+        "tags": [
+          "Property"
+        ],
+        "summary": "(admin) Remove property from groups",
+        "consumes": [],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "description": "Group ID"
+              }
+            },
+            "x-examples": {
+              "application/json": "[23, 45]"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "propertyId",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/core/property/{propertyId}/units/": {
+      "get": {
+        "tags": [
+          "Property"
+        ],
+        "summary": "(user) Retrieve list of property's units",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "type": "array",
+              "items": {
+                "required": [
+                  "commodity",
+                  "id"
+                ],
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Unit id"
+                  },
+                  "commodity": {
+                    "type": "string",
+                    "description": "Unit commodity code"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Property"
+        ],
+        "summary": "(user) Create unit on property",
+        "consumes": [],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "commodity"
+              ],
+              "properties": {
+                "commodity": {
+                  "type": "string",
+                  "description": "Unit commodity code"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "propertyId",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/core/property/{propertyId}/units/{unitId}/": {
+      "get": {
+        "tags": [
+          "Property"
+        ],
+        "summary": "(user) Retrieve unit info",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "commodity": {
+                  "type": "string",
+                  "description": "Unit commodity code"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Property"
+        ],
+        "summary": "(user) Update unit on property",
+        "consumes": [],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "commodity"
+              ],
+              "properties": {
+                "commodity": {
+                  "type": "string",
+                  "description": "Unit commodity code"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Property"
+        ],
+        "summary": "(user) Remove unit from property",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "propertyId",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "unitId",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/core/usergroup/": {
+      "get": {
+        "tags": [
+          "User Group"
+        ],
+        "summary": "(admin) Get visible user groups",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "Group ID"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Group name"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "User Group"
+        ],
+        "summary": "(admin) Create new user group",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "name"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Group name"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Group description"
+                },
+                "parent": {
+                  "type": "integer",
+                  "description": "The group parent's ID"
+                },
+                "users": {
+                  "type": "array",
+                  "description": "Users that should be added after creation",
+                  "items": {
+                    "type": "integer",
+                    "description": "User ID"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/core/usergroup/{userGroupId}/": {
+      "get": {
+        "tags": [
+          "User Group"
+        ],
+        "summary": "(admin) Get user group info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Group name"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Group description"
+                },
+                "parent": {
+                  "type": "integer",
+                  "description": "Parent group ID"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "User Group"
+        ],
+        "summary": "(admin) Update user group info",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Group name"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Group description"
+                },
+                "parent": {
+                  "type": "integer",
+                  "description": "The parent group ID"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "User Group"
+        ],
+        "summary": "(admin) Delete user group",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "userGroupId",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/core/usergroup/{userGroupId}/users/": {
+      "get": {
+        "tags": [
+          "User Group"
+        ],
+        "summary": "(admin) Get group users",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "User ID"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "User name"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "userGroupId",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/core/usergroup/{userGroupId}/users/add/": {
+      "post": {
+        "tags": [
+          "User Group"
+        ],
+        "summary": "(admin) Add users to group",
+        "consumes": [],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "description": "User ID"
+              }
+            },
+            "x-examples": {
+              "application/json": "[23, 45]"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "userGroupId",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/core/usergroup/{userGroupId}/users/remove/": {
+      "post": {
+        "tags": [
+          "User Group"
+        ],
+        "summary": "(admin) Remove users from group",
+        "consumes": [],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "description": "User ID"
+              }
+            },
+            "x-examples": {
+              "application/json": "[23, 45]"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "userGroupId",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/core/propertygroup/": {
+      "get": {
+        "tags": [
+          "Property Group"
+        ],
+        "summary": "(user) Get visible property groups",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "Group ID"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Group name"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Property Group"
+        ],
+        "summary": "(admin) Create new property group",
+        "consumes": [],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "name"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Group name"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Group description"
+                },
+                "parent": {
+                  "type": "string",
+                  "description": "The group parent's ID"
+                },
+                "properties": {
+                  "type": "array",
+                  "description": "Properties that should be added after creation",
+                  "items": {
+                    "type": "integer",
+                    "description": "Properties ID"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/core/propertygroup/{propertyGroupId}/": {
+      "get": {
+        "tags": [
+          "Property Group"
+        ],
+        "summary": "(user) Get property group info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Group name"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Group description"
+                },
+                "parent": {
+                  "type": "integer",
+                  "description": "Parent group ID"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Property Group"
+        ],
+        "summary": "(admin) Update property group info",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Group name"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Group description"
+                },
+                "parent": {
+                  "type": "integer",
+                  "description": "The parent group ID"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Property Group"
+        ],
+        "summary": "(admin) Delete property group",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "propertyGroupId",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/core/propertygroup/{propertyGroupId}/properties/": {
+      "get": {
+        "tags": [
+          "Property Group"
+        ],
+        "summary": "(user) Get group properties",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "Unit ID"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Unit name"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "propertyGroupId",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/core/propertygroup/{propertyGroupId}/properties/add/": {
+      "post": {
+        "tags": [
+          "Property Group"
+        ],
+        "summary": "(admin) Add properties to group",
+        "consumes": [],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "description": "Unit ID"
+              }
+            },
+            "x-examples": {
+              "application/json": "[23, 45]"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "propertyGroupId",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/core/propertygroup/{propertyGroupId}/properties/remove/": {
+      "post": {
+        "tags": [
+          "Property Group"
+        ],
+        "summary": "(admin) Remove properties from group",
+        "consumes": [],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "description": "Unit ID"
+              }
+            },
+            "x-examples": {
+              "application/json": "[23, 45]"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "propertyGroupId",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/core/permission/": {
+      "post": {
+        "tags": [
+          "Permission"
+        ],
+        "summary": "(admin) Create new permission",
+        "consumes": [],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "name"
+              ],
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "description": "Permission code. Only lowercase and underscore"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Permission name"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Permission description"
+                },
+                "scope": {
+                  "type": "string",
+                  "description": "Permission scope"
+                },
+                "data": {
+                  "type": "string",
+                  "description": "Permission arbitrary data"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      }
+    },
+    "/core/permission/{permissionId}/": {
+      "get": {
+        "tags": [
+          "Permission"
+        ],
+        "summary": "(admin) Get permission info",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "description": "Permission code"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Permission name"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Permission description"
+                },
+                "scope": {
+                  "type": "string",
+                  "description": "Permission scope"
+                },
+                "data": {
+                  "type": "string",
+                  "description": "Permission arbitrary data"
+                },
+                "groups": {
+                  "type": "array",
+                  "description": "Permission membership of groups",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "description": "Group ID"
+                      },
+                      "code": {
+                        "type": "string",
+                        "description": "Group code"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Group name"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Permission"
+        ],
+        "summary": "(admin) Update permission info",
+        "consumes": [],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "name"
+              ],
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "description": "Permission code. Only lowercase and underscore"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Permission name"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Permission description"
+                },
+                "scope": {
+                  "type": "string",
+                  "description": "Permission scope"
+                },
+                "data": {
+                  "type": "string",
+                  "description": "Permission arbitrary data"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Permission"
+        ],
+        "summary": "(admin) Remove permission",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "permissionId",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/core/permissiongroup/": {
+      "post": {
+        "tags": [
+          "Permission Group"
+        ],
+        "summary": "(admin) Create new permission group",
+        "consumes": [],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "name"
+              ],
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "description": "Permission group code. Only lowercase and underscore"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Permission group name"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Permission group description"
+                },
+                "scope": {
+                  "type": "string",
+                  "description": "Permission group scope"
+                },
+                "data": {
+                  "type": "string",
+                  "description": "Permission arbitrary data"
+                },
+                "parent": {
+                  "type": "integer",
+                  "description": "Permission group's parent ID"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      }
+    },
+    "/core/permissiongroup/{permissionGroupId}/": {
+      "get": {
+        "tags": [
+          "Permission Group"
+        ],
+        "summary": "(admin) Get permission group info",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "description": "Permission group code"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Permission group name"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Permission group description"
+                },
+                "scope": {
+                  "type": "string",
+                  "description": "Permission group scope"
+                },
+                "data": {
+                  "type": "string",
+                  "description": "Permission group arbitrary data"
+                },
+                "permissions": {
+                  "type": "array",
+                  "description": "Members of the permission group",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "description": "Permission ID"
+                      },
+                      "code": {
+                        "type": "string",
+                        "description": "Permission code"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Permission name"
+                      },
+                      "data": {
+                        "type": "string",
+                        "description": "Permission data"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Permission Group"
+        ],
+        "summary": "(admin) Update permission group info",
+        "consumes": [],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "name"
+              ],
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "description": "Permission group code. Only lowercase and underscore"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Permission group name"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Permission group description"
+                },
+                "scope": {
+                  "type": "string",
+                  "description": "Permission group scope"
+                },
+                "data": {
+                  "type": "string",
+                  "description": "Permission group arbitrary data"
+                },
+                "parent": {
+                  "type": "integer",
+                  "description": "Permission group's parent ID"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Permission Group"
+        ],
+        "summary": "(admin) Remove permission group",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "permissionGroupId",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/core/permissiongroup/{permissionGroupId}/permissions": {
+      "get": {
+        "tags": [
+          "Permission Group"
+        ],
+        "summary": "(admin) Get permissions from group",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Permission ID"
+                  },
+                  "code": {
+                    "type": "string",
+                    "description": "Permission code"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Permission name"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "permissionGroupId",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/core/permissiongroup/{permissionGroupId}/permissions/add/": {
+      "post": {
+        "tags": [
+          "Permission Group"
+        ],
+        "summary": "(admin) Add permissions to group",
+        "consumes": [],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "description": "Permission ID"
+              }
+            },
+            "x-examples": {
+              "application/json": "[23, 45]"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "permissionGroupId",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/core/permissiongroup/{permissionGroupId}/permissions/remove/": {
+      "post": {
+        "tags": [
+          "Permission Group"
+        ],
+        "summary": "(admin) Remove permissions from group",
+        "consumes": [],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "description": "Permission ID"
+              }
+            },
+            "x-examples": {
+              "application/json": "[23, 45]"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "permissionGroupId",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/core/appscope/": {
+      "get": {
+        "tags": [
+          "Scope"
+        ],
+        "summary": "(admin) List Application Scope relations",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "type": "array",
+              "items": {
+                "required": [
+                  "client_id",
+                  "client_name",
+                  "usergroup"
+                ],
+                "type": "object",
+                "properties": {
+                  "client_id": {
+                    "type": "string",
+                    "description": "Application client ID"
+                  },
+                  "client_name": {
+                    "type": "string",
+                    "description": "Application client name"
+                  },
+                  "scope": {
+                    "type": "string",
+                    "description": "Scope name"
+                  },
+                  "usergroup": {
+                    "required": [
+                      "id",
+                      "name"
+                    ],
+                    "type": "object",
+                    "description": "User group",
+                    "properties": {
+                      "id": {
+                        "type": "number",
+                        "description": "User group ID"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "User group name"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Scope"
+        ],
+        "summary": "(admin) Create new Application Scope relation",
+        "consumes": [],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "client_id",
+                "scope",
+                "usergroup"
+              ],
+              "properties": {
+                "client_id": {
+                  "type": "string",
+                  "description": "Application client ID"
+                },
+                "scope": {
+                  "type": "string",
+                  "description": "Scope name"
+                },
+                "usergroup": {
+                  "type": "number",
+                  "description": "User group ID"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Status 201"
+          }
+        }
+      }
+    },
+    "/core/appscope/{clientId}/": {
+      "put": {
+        "tags": [
+          "Scope"
+        ],
+        "summary": "(admin) Update scope name",
+        "consumes": [],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "scope": {
+                  "type": "string",
+                  "description": "Scope name"
+                },
+                "usergroup": {
+                  "type": "number",
+                  "description": "User group ID"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Scope"
+        ],
+        "summary": "(admin) Delete Application Scope relation",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "clientId",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "Application client ID"
+        }
+      ]
+    },
+    "/core/program/": {
+      "post": {
+        "tags": [
+          "Program"
+        ],
+        "summary": "(admin) Create new program",
+        "consumes": [],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "name"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Program name"
+                },
+                "active": {
+                  "type": "boolean",
+                  "description": "If the program is active"
+                },
+                "permissiongroup": {
+                  "type": "number",
+                  "description": "Permission group ID"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "description": "Program ID"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/core/program/redeem/": {
+      "post": {
+        "tags": [
+          "Program"
+        ],
+        "summary": "(user) Redeem program access code",
+        "consumes": [],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "code"
+              ],
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "description": "Access code"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Valid code",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "permissions": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Permission ID"
+                      },
+                      "code": {
+                        "type": "string",
+                        "description": "Permission code"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Permission name"
+                      },
+                      "data": {
+                        "type": "string",
+                        "description": "Permission data"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/core/program/{programId}/": {
+      "get": {
+        "tags": [
+          "Program"
+        ],
+        "summary": "(admin) Get program info",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "required": [
+                "codes",
+                "name"
+              ],
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Program name"
+                },
+                "active": {
+                  "type": "boolean",
+                  "description": "If the program is active"
+                },
+                "codes": {
+                  "type": "array",
+                  "items": {
+                    "required": [
+                      "code",
+                      "maxredemptions",
+                      "users"
+                    ],
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "string",
+                        "description": "Access code"
+                      },
+                      "maxredemptions": {
+                        "type": "string",
+                        "description": "Maximum number of redemptions. Must be equal or greater than zero."
+                      },
+                      "expiry": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Datetime of when the code expires"
+                      },
+                      "users": {
+                        "type": "array",
+                        "description": "List of users that redeemed the code.",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "description": "User ID"
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "User name"
+                            },
+                            "redeemed": {
+                              "type": "string",
+                              "format": "date-time",
+                              "description": "Datetime of when the user redeemed the code"
+                            }
+                          }
+                        }
+                      },
+                      "usergroup": {
+                        "type": "object",
+                        "description": "User group that the code associates. If it doesn't, this value is null.",
+                        "properties": {
+                          "id": {
+                            "type": "number",
+                            "description": "User group ID"
+                          },
+                          "name": {
+                            "type": "string",
+                            "description": "User group name"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "created": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Program creation date"
+                },
+                "permissiongroup": {
+                  "type": "object",
+                  "description": "Assigned permission group",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Permission group ID"
+                    },
+                    "code": {
+                      "type": "string",
+                      "description": "Permission group code"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Permission group name"
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "Permission group description"
+                    },
+                    "scope": {
+                      "type": "string",
+                      "description": "Permission group scope"
+                    },
+                    "data": {
+                      "type": "string",
+                      "description": "Permission group data"
+                    },
+                    "permissions": {
+                      "type": "array",
+                      "description": "List of permissions",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "Permission ID"
+                          },
+                          "code": {
+                            "type": "string",
+                            "description": "Permission code"
+                          },
+                          "name": {
+                            "type": "string",
+                            "description": "Permission name"
+                          },
+                          "data": {
+                            "type": "string",
+                            "description": "Permission data"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Program"
+        ],
+        "summary": "(admin) Update program info",
+        "consumes": [],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "name"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Program name"
+                },
+                "active": {
+                  "type": "boolean",
+                  "description": "If the program is active"
+                },
+                "permissiongroup": {
+                  "type": "number",
+                  "description": "Permission group ID"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "programId",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/core/program/{programId}/code/": {
+      "post": {
+        "tags": [
+          "Program"
+        ],
+        "summary": "(admin) Generate access code",
+        "consumes": [],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "number"
+              ],
+              "properties": {
+                "maxredemptions": {
+                  "type": "integer",
+                  "description": "Maximum number of redemptions for the code. Default is 1."
+                },
+                "expiry": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Datetime of when the code expires."
+                },
+                "usergroup": {
+                  "type": "integer",
+                  "description": "User group that the code associates, if applicable."
+                },
+                "number": {
+                  "type": "integer",
+                  "description": "Number of codes with these characteristics to be generated."
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "description": "Generated code"
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "programId",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/rh/syncrhes/": {
+      "get": {
+        "tags": [
+          "Rural Horizons"
+        ],
+        "summary": "(admin) RHES synchronization task",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "The synchronization key"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        },
+        "security": []
+      }
+    },
+    "/rh/profile/": {
+      "get": {
+        "tags": [
+          "Rural Horizons"
+        ],
+        "summary": "(user) Retrieve user profile for Rural Horizons app",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "description": "Username"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Name of the user"
+                },
+                "email": {
+                  "type": "string",
+                  "description": "E-mail address"
+                },
+                "mobile": {
+                  "type": "string",
+                  "description": "Mobile phone number"
+                },
+                "company": {
+                  "type": "string",
+                  "description": "Company"
+                },
+                "birth_date": {
+                  "type": "string",
+                  "format": "date",
+                  "description": "Date of birth in ISO format"
+                },
+                "person_type": {
+                  "type": "string",
+                  "description": "Person type, maximum 2 letters"
+                },
+                "sex": {
+                  "type": "string",
+                  "description": "The sex of the individual, when applicable",
+                  "example": "F"
+                },
+                "language": {
+                  "type": "string",
+                  "description": "The language as a POSIX Locale tag"
+                },
+                "permissions": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "description": "Permission ID"
+                      },
+                      "code": {
+                        "type": "string",
+                        "description": "Permission code"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Permission name"
+                      },
+                      "data": {
+                        "type": "string",
+                        "description": "Permission data"
+                      }
+                    }
+                  }
+                },
+                "properties": {
+                  "type": "array",
+                  "description": "Properties owned by the user",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "description": "Property ID"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Property name"
+                      },
+                      "address": {
+                        "type": "string",
+                        "description": "Property address"
+                      },
+                      "zipcode": {
+                        "type": "string",
+                        "description": "Property zipcode"
+                      },
+                      "district": {
+                        "type": "string",
+                        "description": "Property district"
+                      },
+                      "geoname": {
+                        "type": "object",
+                        "description": "An object with exact location based on the Geonames.org database"
+                      },
+                      "city": {
+                        "type": "string",
+                        "description": "Property city string"
+                      },
+                      "code": {
+                        "type": "string",
+                        "description": "Property RHES code"
+                      },
+                      "georef": {
+                        "type": "object",
+                        "description": "GeoJSON object"
+                      },
+                      "commodities": {
+                        "type": "array",
+                        "description": "Property's commodities",
+                        "items": {
+                          "type": "string",
+                          "description": "Commodities codes"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rh/q/{questionnaireAlias}/answer/": {
+      "post": {
+        "tags": [
+          "Rural Horizons"
+        ],
+        "summary": "(user) Send question answer",
+        "consumes": [],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "questid": {
+                    "type": "string",
+                    "description": "Question ID"
+                  },
+                  "answer": {
+                    "type": "string",
+                    "description": "Question answer converted to string"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "hash": {
+                  "type": "string",
+                  "description": "New answer document hash"
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "questionnaireAlias",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/rh/tk/{toolkitAlias}/questionnaire/": {
+      "get": {
+        "tags": [
+          "Rural Horizons"
+        ],
+        "summary": "(user) Retrieve the questionnaire from the toolkit",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "toolkitAlias",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/rh/tk/{toolkitAlias}/assessmentprotocol/": {
+      "get": {
+        "tags": [
+          "Rural Horizons"
+        ],
+        "summary": "(user) Retrieve the assessment protocol from the toolkit",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "toolkitAlias",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/rh/tk/{toolkitAlias}/responsesheet/": {
+      "get": {
+        "tags": [
+          "Rural Horizons"
+        ],
+        "summary": "(user) Retrieve the user's response sheet of the toolkit",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "toolkitAlias",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/rh/tk/{toolkitAlias}/actionsheet/": {
+      "get": {
+        "tags": [
+          "Rural Horizons"
+        ],
+        "summary": "(user) Retrieve the user's action sheet of the toolkit",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "toolkitAlias",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/rh/tk/{toolkitAlias}/report/": {
+      "get": {
+        "tags": [
+          "Rural Horizons"
+        ],
+        "summary": "(user) Retrieve the user's report of the toolkit",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "toolkitAlias",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/rh/tk/{toolkitAlias}/": {
+      "get": {
+        "tags": [
+          "Rural Horizons"
+        ],
+        "summary": "(user) Retrieve the toolkit information",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "toolkitAlias",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/rh/tk/": {
+      "get": {
+        "tags": [
+          "Rural Horizons"
+        ],
+        "summary": "(user) Retrieve list of user's toolkits",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "description": "Toolkit Alias"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rh/tk/{toolkitAlias}/adduser/": {
+      "post": {
+        "tags": [
+          "Rural Horizons"
+        ],
+        "summary": "(admin) Add a user to the toolkit",
+        "consumes": [],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "description": "User ID"
+              }
+            },
+            "x-examples": {
+              "application/json": "[23, 45]"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "toolkitAlias",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/rh/feed/": {
+      "get": {
+        "tags": [
+          "Rural Horizons"
+        ],
+        "summary": "(user) Retrieve news feed",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "type": "array",
+              "items": {
+                "required": [
+                  "have_liked",
+                  "id",
+                  "likes",
+                  "text",
+                  "timestamp",
+                  "url",
+                  "user"
+                ],
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Post ID"
+                  },
+                  "user": {
+                    "required": [
+                      "id",
+                      "name"
+                    ],
+                    "type": "object",
+                    "description": "User who posted",
+                    "properties": {
+                      "id": {
+                        "type": "number",
+                        "description": "User ID"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "User name"
+                      }
+                    }
+                  },
+                  "timestamp": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Datetime of when the post was published"
+                  },
+                  "url": {
+                    "type": "string",
+                    "description": "URL associated with the post"
+                  },
+                  "text": {
+                    "type": "string",
+                    "description": "Post text"
+                  },
+                  "likes": {
+                    "type": "number",
+                    "description": "Number of likes"
+                  },
+                  "have_liked": {
+                    "type": "boolean",
+                    "description": "A boolean that tells whether the requesting user has liked the post."
+                  },
+                  "comments": {
+                    "type": "array",
+                    "description": "List of post comments",
+                    "items": {
+                      "required": [
+                        "id",
+                        "text",
+                        "timestamp",
+                        "user"
+                      ],
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "description": "Comment ID"
+                        },
+                        "user": {
+                          "required": [
+                            "id",
+                            "name"
+                          ],
+                          "type": "object",
+                          "description": "User who commented",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "description": "User ID"
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "User name"
+                            }
+                          }
+                        },
+                        "text": {
+                          "type": "string",
+                          "description": "Comment text"
+                        },
+                        "timestamp": {
+                          "type": "string",
+                          "description": "Datetime of when the comment was published"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Rural Horizons"
+        ],
+        "summary": "(admin) Create new post",
+        "consumes": [],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "text",
+                "url"
+              ],
+              "properties": {
+                "text": {
+                  "type": "string",
+                  "description": "Post text"
+                },
+                "url": {
+                  "type": "string",
+                  "description": "URL associated with the post"
+                },
+                "usergroups": {
+                  "type": "array",
+                  "description": "List of user group IDs. If none given, post is sent to ALL groups.",
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "required": [
+                "id"
+              ],
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "Post ID"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rh/feed/{postID}/": {
+      "post": {
+        "tags": [
+          "Rural Horizons"
+        ],
+        "summary": "(user) Comment on post",
+        "consumes": [],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "type": "string",
+                  "description": "Comment text"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Rural Horizons"
+        ],
+        "summary": "(admin) Edit post",
+        "consumes": [],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "text",
+                "url"
+              ],
+              "properties": {
+                "url": {
+                  "type": "string",
+                  "description": "URL associated with the post"
+                },
+                "text": {
+                  "type": "string",
+                  "description": "Post text"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Rural Horizons"
+        ],
+        "summary": "(admin) Remove post",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "postID",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/rh/feed/{postID}/{commentID}/": {
+      "delete": {
+        "tags": [
+          "Rural Horizons"
+        ],
+        "summary": "(user) Remove comment",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "postID",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "commentID",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/rh/feed/{postID}/like/": {
+      "post": {
+        "tags": [
+          "Rural Horizons"
+        ],
+        "summary": "(user) Like post",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "postID",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/rh/user/": {
+      "get": {
+        "tags": [
+          "Rural Horizons"
+        ],
+        "summary": "(user) Retrieve user profile for Rural Horizons app",
+        "description": "Same as /rh/profile/",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "description": "Username"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Name of the user"
+                },
+                "email": {
+                  "type": "string",
+                  "description": "E-mail address"
+                },
+                "mobile": {
+                  "type": "string",
+                  "description": "Mobile phone number"
+                },
+                "company": {
+                  "type": "string",
+                  "description": "Company"
+                },
+                "birth_date": {
+                  "type": "string",
+                  "format": "date",
+                  "description": "Date of birth in ISO format"
+                },
+                "person_type": {
+                  "type": "string",
+                  "description": "Person type, maximum 2 letters"
+                },
+                "sex": {
+                  "type": "string",
+                  "description": "The sex of the individual, when applicable",
+                  "example": "F"
+                },
+                "language": {
+                  "type": "string",
+                  "description": "The language as a POSIX Locale tag"
+                },
+                "permissions": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "description": "Permission ID"
+                      },
+                      "code": {
+                        "type": "string",
+                        "description": "Permission code"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Permission name"
+                      },
+                      "data": {
+                        "type": "string",
+                        "description": "Permission data"
+                      }
+                    }
+                  }
+                },
+                "properties": {
+                  "type": "array",
+                  "description": "Properties owned by the user",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "description": "Property ID"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Property name"
+                      },
+                      "address": {
+                        "type": "string",
+                        "description": "Property address"
+                      },
+                      "zipcode": {
+                        "type": "string",
+                        "description": "Property zipcode"
+                      },
+                      "district": {
+                        "type": "string",
+                        "description": "Property district"
+                      },
+                      "geoname": {
+                        "type": "object",
+                        "description": "An object with exact location based on the Geonames.org database"
+                      },
+                      "city": {
+                        "type": "string",
+                        "description": "Property city string"
+                      },
+                      "code": {
+                        "type": "string",
+                        "description": "Property RHES code"
+                      },
+                      "georef": {
+                        "type": "object",
+                        "description": "GeoJSON object"
+                      },
+                      "commodities": {
+                        "type": "array",
+                        "description": "Property's commodities",
+                        "items": {
+                          "type": "string",
+                          "description": "Commodities codes"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "(user) Update the current user info",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "description": "Username"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Name of the user"
+                },
+                "email": {
+                  "type": "string",
+                  "description": "E-mail address"
+                },
+                "mobile": {
+                  "type": "string",
+                  "description": "Mobile phone number"
+                },
+                "company": {
+                  "type": "string",
+                  "description": "Company"
+                },
+                "birth_date": {
+                  "type": "string",
+                  "format": "date",
+                  "description": "Date of birth in ISO format",
+                  "example": "\"1970-01-20\""
+                },
+                "person_type": {
+                  "type": "string",
+                  "description": "Person type, maximum 2 letters"
+                },
+                "sex": {
+                  "type": "string",
+                  "description": "The sex of the individual, when applicable",
+                  "enum": [
+                    "F",
+                    "M",
+                    "N"
+                  ]
+                },
+                "language": {
+                  "type": "string",
+                  "description": "The language as a POSIX Locale tag",
+                  "default": "en_US",
+                  "example": "en_US"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      }
+    },
+    "/rh/user/new/": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Create new user for Farming Solution",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "name",
+                "password",
+                "username"
+              ],
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "description": "Username"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Name of the user"
+                },
+                "email": {
+                  "type": "string",
+                  "description": "E-mail address"
+                },
+                "password": {
+                  "type": "string",
+                  "description": "Password"
+                },
+                "mobile": {
+                  "type": "string",
+                  "description": "Mobile phone number"
+                },
+                "company": {
+                  "type": "string",
+                  "description": "Company"
+                },
+                "birth_date": {
+                  "type": "string",
+                  "format": "date",
+                  "description": "Date of birth in ISO format",
+                  "example": "\"1970-01-20\""
+                },
+                "person_type": {
+                  "type": "string",
+                  "description": "Person type, maximum 2 letters"
+                },
+                "sex": {
+                  "type": "string",
+                  "description": "The sex of the individual, when applicable",
+                  "enum": [
+                    "F",
+                    "M",
+                    "N"
+                  ]
+                },
+                "language": {
+                  "type": "string",
+                  "description": "The language as a POSIX Locale tag",
+                  "default": "en_US",
+                  "example": "en_US"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Status 201",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/rh/login/": {
+      "post": {
+        "summary": "Logs the user in",
+        "consumes": [],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "password",
+                "username"
+              ],
+              "properties": {
+                "username": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "required": [
+                "access_token",
+                "expires_in",
+                "refresh_token",
+                "token_type"
+              ],
+              "type": "object",
+              "properties": {
+                "access_token": {
+                  "type": "string"
+                },
+                "token_type": {
+                  "type": "string"
+                },
+                "expires_in": {
+                  "type": "string"
+                },
+                "refresh_token": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rh/logout/": {
+      "post": {
+        "summary": "Invalidates current user token",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Status 200"
+          }
+        }
+      }
+    },
+    "/rh/user/verify/": {
+      "post": {
+        "summary": "Verify if the username/email/mobile already exists",
+        "consumes": [],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "username"
+              ],
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "description": "The username/email/mobile to be checked."
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The username/email/mobile exists."
+          },
+          "404": {
+            "description": "The username/email/mobile does not exist."
+          }
+        }
+      }
+    },
+    "/es/docs/": {
+      "post": {
+        "tags": [
+          "Search"
+        ],
+        "summary": "(admin) Search documents",
+        "consumes": [],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "description": "A standard ElasticSearch query."
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "schema": {
+              "type": "object",
+              "description": "A standard ElasticSearch response."
+            }
+          }
+        }
+      }
+    },
+    "/a/oauth2/applications/": {},
+    "/a/oauth2/applications/register/": {},
+    "/a/oauth2/applications/{id}/": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/a/oauth2/applications/{id}/delete/": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/a/oauth2/applications/{id}/update/": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/a/oauth2/authorized_tokens/": {},
+    "/a/oauth2/authorized_tokens/{token}/delete/": {
+      "parameters": [
+        {
+          "name": "token",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    }
+  },
+  "securityDefinitions": {
+    "OAuth2": {
+      "type": "oauth2",
+      "tokenUrl": "",
+      "flow": "password",
+      "scopes": {}
+    }
+  }
+}
