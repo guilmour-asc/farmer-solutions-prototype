@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import { MovieProvider } from '../../providers/movie/movie';
 
 /**
@@ -33,22 +33,52 @@ export class FeedPage {
   public movieList = new Array<any>();
 
   public username: string = "Heracles";
+  public loader;
+  public refresher;
+  public isRefreshing: boolean = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private MovieProvider: MovieProvider) {
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams,
+    private MovieProvider: MovieProvider,
+    public loadingCtrl: LoadingController) {
   }
 
-  public shittyFunction(a: number, b: number): void {
-    alert(a + b);
+  loadingShow() {
+    this.loader = this.loadingCtrl.create({
+      content: "Aguarde, por favor..."
+    });
+    this.loader.present();
   }
 
-  ionViewDidLoad() {
+  loadingHide() {
+    this.loader.dismiss();
+  }
+
+  doRefresh(refresher) {
+    this.refresher = refresher;
+    this.isRefreshing = true;
+    this.loadFeed();
+  }
+
+  ionViewDidEnter() {
+    this.loadFeed();
+  }
+
+  loadFeed() {
+    this.loadingShow();
     this.MovieProvider.getPopularMovies().subscribe(data => {
       const response = (data as any);
       const returnedObj = JSON.parse(response._body);
       this.movieList = returnedObj.results;
       console.log(returnedObj);
+      this.loadingHide();
+      if (this.isRefreshing) {
+        this.refresher.complete();
+        this.isRefreshing = false;
+      }
     }, error => {
       console.log(error);
+      this.loadingHide();
     })
   }
 
