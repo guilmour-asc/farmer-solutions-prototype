@@ -14,37 +14,23 @@
 
 
 <ion-content padding>
+  <ion-buttons end>
+    <button ion-button clear (click)="loginPrompt()">Pular</button>
+  </ion-buttons>
   <ion-slides pager>
 
-    <ion-slide>
-      <img class="slider-img" src="assets/images/intro/earth-healing.png">
-      <h2 class="slider-title">Soil Healing</h2>
-      <br>
-      <p class="slider-text">
-        Learn several techniques to restore and prepare the soil for agricultural purposes...
-      </p>
-    </ion-slide>
+    <ion-slide *ngFor="let slide of slides">
 
-    <ion-slide style="background-color: rgba(166, 197, 189, 0.5)">
-      <h2 class="slider-title">Water Resources</h2>
+      <img class="slider-img" [src]="slide.image">
+      <h2 class="slider-title" [innerHTML]="slide.title"></h2>
       <br>
-      <p class="slider-text">
-        Find your ways to gather, retain and purify water from distinct sources, without hassle...
-      </p>
-    </ion-slide>
-
-    <ion-slide style="background-color: rgba(235, 115, 79, 0.5)">
-      <h2 class="slider-title">Fair Use of Fire</h2>
-      <br>
-      <p class="slider-text">
-        You can also learn techniques and tutorials for fire handling and avoidance of wildfires on the environment.
-      </p>
+      <p class="slider-text" [innerHTML]="slide.description"></p>
     </ion-slide>
 
     <ion-slide>
       <h2 class="slider-title">Have a good work</h2>
       <br>
-      <button ion-button block (click)="goToMain()">Enter (<i>offline</i>)</button>
+      <button ion-button block (click)="loginPrompt()">Login</button>
     </ion-slide>
 
   </ion-slides>
