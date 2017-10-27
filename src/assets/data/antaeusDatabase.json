@@ -1,0 +1,36 @@
+{
+    "users": [
+        {
+            "id": 0,
+            "username": "guilmour",
+            "password": "guilmour",
+            "name": "Guilmour ASC",
+            "email": "guilmour.asc@gmail.com",
+            "phones": [
+                {
+                    "phoneType": "Mobile",
+                    "phoneNumber": "035999143176"
+                }
+            ],
+            "location": [
+                {
+                    "address": "Pousada Paraíso",
+                    "city": "Delfinópolis",
+                    "state": "MG",
+                    "country": "Brasil"
+                }
+            ],
+            "creationDate": "2015-10-26T07:46:36.611Z",
+            "lastUpdateDate": "2016-01-11T11:30:36.611Z",
+            "lastLoginDate": "2016-01-11T10:55:36.611Z"
+        }
+    ],
+    "categories": [
+        {
+            "id": 0,
+            "name": "Cocoa",
+            "Description": "Sustainable and anti-damaging farming of cocoa",
+            "questions": []
+        }
+    ]
+}
