@@ -20,8 +20,8 @@ export class SignupPage {
   responseData: any;
   userData = {
     "username": "", "password": "", "name": "", "birthday": "", "email": "",
-    "phone": [{ "phoneType": "", "phoneNumber": "" }],
-    "location": [{ "address": "", "city": "", "state": "", "country": "" }],
+    "phone": [{ 'phoneType': "", 'phoneNumber': "" }],
+    "location": [{ 'address': "", 'city': "", 'state': "", 'country': "" }],
     "creationDate": (new Date()).toISOString(),
     "lastUpdateDate": (new Date()).toISOString(),
     "lastLoginDate": (new Date()).toISOString()
@@ -37,6 +37,7 @@ export class SignupPage {
   }
 
   signup() {
+    // console.log(this.userData);
     this.authService.postData(this.userData, 'signup').then((result) => {
       this.responseData = result;
       console.log(this.responseData);

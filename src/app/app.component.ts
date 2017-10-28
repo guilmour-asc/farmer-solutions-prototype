@@ -6,6 +6,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { IntroPage } from '../pages/intro/intro';
 import { ConfigProvider } from '../providers/config/config';
 import { LoginPage } from '../pages/login/login';
+import { SignupPage } from '../pages/signup/signup';
 
 @Component({
   templateUrl: 'app.html',
@@ -26,7 +27,7 @@ export class MyApp {
         this.rootPage = IntroPage;
       }
       else{
-        this.rootPage = LoginPage;
+        this.rootPage = SignupPage;
       }
       console.log(config);
       statusBar.styleDefault();
