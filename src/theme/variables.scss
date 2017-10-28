@@ -21,13 +21,7 @@ $app-direction: ltr;
 // the Sass variables found in Ionic's source scss files.
 // To view all the possible Ionic variables, see:
 // http://ionicframework.com/docs/theming/overriding-ionic-variables/
-$tabs-background: rgb(243, 228, 213);
-$tabs-tab-color-inactive: rgba(0, 0, 0, 0.75);
 
-$toolbar-background: rgb(243, 228, 213);
-
-// $background-color: rgb(255, 255, 255);
-$list-background-color: rgb(243, 228, 213);
 
 img.header-avatar{
   width:30px;
@@ -56,9 +50,15 @@ $colors: (
   primary:    rgb(141, 131, 76),
   secondary:  #4edf96,
   danger:     #ff4949,
-  light:      #f4f4f4,
+  light:      rgb(255, 255, 255),
+  background: rgb(240, 236, 232),
   dark:       rgb(34, 34, 34)
 );
+
+$tabs-background: color($colors, background);
+$tabs-tab-color-inactive: rgba(0, 0, 0, 0.75);
+
+$toolbar-background: color($colors, background);
 
 
 // App iOS Variables

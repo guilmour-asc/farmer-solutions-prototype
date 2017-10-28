@@ -18,6 +18,8 @@ import { SettingsPageModule } from '../pages/settings/settings.module';
 import { UserProfilePageModule } from '../pages/user-profile/user-profile.module';
 import { CategoriesPageModule } from '../pages/categories/categories.module';
 import { LoginPageModule } from '../pages/login/login.module';
+import { AuthServiceProvider } from '../providers/auth-service/auth-service';
+import { SignupPageModule } from '../pages/signup/signup.module';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,8 @@ import { LoginPageModule } from '../pages/login/login.module';
     SettingsPageModule,
     UserProfilePageModule,
     CategoriesPageModule,
-    LoginPageModule
+    LoginPageModule,
+    SignupPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -51,7 +54,7 @@ import { LoginPageModule } from '../pages/login/login.module';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ConfigProvider,
-    // MovieProvider
+    AuthServiceProvider,
   ]
 })
 export class AppModule {}

@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
+import { TabsPage } from '../tabs/tabs';
 
 /**
  * Generated class for the LoginPage page.
@@ -15,8 +17,16 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class LoginPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-    
-   }
+  responseData: any;
+  userData = { "username": "", "password": "" };
+
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams,
+    public authService: AuthServiceProvider) { }
+
+  login() {
+    //Login page link
+    this.navCtrl.push(TabsPage);
+  }
 
 }
