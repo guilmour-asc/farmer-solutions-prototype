@@ -7,11 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-buttons start>
-      <button ion-button clear icon-only color="danger">
-        <ion-icon name='close'></ion-icon>
-      </button>
-    </ion-buttons>
+    
     <ion-title>Formulário de Cadastro</ion-title>
   </ion-navbar>
 
@@ -35,20 +31,19 @@
         </ion-item>
       </ion-row>
       <ion-row align-items-end>
+        <ion-col col-7>
+          <ion-item>
+            <ion-label color="primary" stacked>Telefone</ion-label>
+            <ion-input placeholder="(XX)XXXXX-XXXX" [(ngModel)]="userData.phone.phoneNumber"></ion-input>
+          </ion-item>
+        </ion-col>
         <ion-col>
           <ion-item>
-            <ion-label stacked style="text-transform: uppercase">Telefone</ion-label>
             <ion-label color="primary" stacked>Tipo</ion-label>
-            <ion-select interface="popover" [(ngModel)]="userData.phone['phoneType']">
+            <ion-select interface="popover" [(ngModel)]="userData.phone.phoneType">
               <ion-option value="mobile">Móvel</ion-option>
               <ion-option value="fixed">Fixo</ion-option>
             </ion-select>
-          </ion-item>
-        </ion-col>
-        <ion-col col-7>
-          <ion-item>
-            <ion-label color="primary" stacked>Número</ion-label>
-            <ion-input placeholder="(XX)XXXXX-XXXX" [(ngModel)]="userData.phone['phoneNumber']"></ion-input>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -78,27 +73,27 @@
       <ion-row>
         <ion-item>
           <ion-label color="primary" stacked>Endereço</ion-label>
-          <ion-input placeholder="Endereço" [(ngModel)]="userData.location['address']"></ion-input>
+          <ion-input placeholder="Endereço" [(ngModel)]="userData.location.address"></ion-input>
         </ion-item>
       </ion-row>
       <ion-row align-items-end>
         <ion-col col-9>
           <ion-item>
             <ion-label color="primary" stacked>Cidade</ion-label>
-            <ion-input placeholder="Cidade" [(ngModel)]="userData.location['city']"></ion-input>
+            <ion-input placeholder="Cidade" [(ngModel)]="userData.location.city"></ion-input>
           </ion-item>
         </ion-col>
         <ion-col>
           <ion-item>
             <ion-label color="primary" stacked>Estado</ion-label>
-            <ion-input placeholder="UF" [(ngModel)]="userData.location['state']"></ion-input>
+            <ion-input placeholder="UF" [(ngModel)]="userData.location.state"></ion-input>
           </ion-item>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-item>
           <ion-label color="primary" stacked>País</ion-label>
-          <ion-input placeholder="País" [(ngModel)]="userData.location['country']"></ion-input>
+          <ion-input placeholder="País" [(ngModel)]="userData.location.country"></ion-input>
         </ion-item>
       </ion-row>
     </ion-grid>

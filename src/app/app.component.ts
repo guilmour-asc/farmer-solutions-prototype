@@ -5,8 +5,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { IntroPage } from '../pages/intro/intro';
 import { ConfigProvider } from '../providers/config/config';
+import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from '../pages/login/login';
-import { SignupPage } from '../pages/signup/signup';
 
 @Component({
   templateUrl: 'app.html',
@@ -22,12 +22,17 @@ export class MyApp {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       let config = configProvider.getConfigData();
-      if(config == null){
+      if (config == null) {
         configProvider.setConfigData(false);
         this.rootPage = IntroPage;
       }
-      else{
-        this.rootPage = SignupPage;
+      else {
+        if (configProvider.getUserData() != null) {
+          this.rootPage = TabsPage;
+        }
+        else {
+          this.rootPage = LoginPage;
+        }
       }
       console.log(config);
       statusBar.styleDefault();

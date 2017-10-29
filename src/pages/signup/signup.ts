@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, App } from 'ionic-angular';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import { TabsPage } from '../tabs/tabs';
 
@@ -17,36 +17,33 @@ import { TabsPage } from '../tabs/tabs';
 })
 export class SignupPage {
 
-  responseData: any;
   userData = {
-    "username": "", "password": "", "name": "", "birthday": "", "email": "",
-    "phone": [{ 'phoneType': "", 'phoneNumber': "" }],
-    "location": [{ 'address': "", 'city': "", 'state': "", 'country': "" }],
-    "creationDate": (new Date()).toISOString(),
-    "lastUpdateDate": (new Date()).toISOString(),
-    "lastLoginDate": (new Date()).toISOString()
+    username: "", password: "", name: "", birthday: "", email: "",
+    phone: { phoneType: "", phoneNumber: "" },
+    location: { address: "", city: "", state: "", country: "" },
+    creationDate: (new Date()).toISOString(),
+    lastUpdateDate: (new Date()).toISOString(),
+    lastLoginDate: (new Date()).toISOString()
   };
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
-    public authService: AuthServiceProvider) {
+    public authService: AuthServiceProvider,
+    public app: App) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad SignupPage');
+  goToMain() {
+    this.navCtrl.push(TabsPage);
+  }
+  goBack() {
+    this.navCtrl.pop();
   }
 
   signup() {
-    // console.log(this.userData);
-    this.authService.postData(this.userData, 'signup').then((result) => {
-      this.responseData = result;
-      console.log(this.responseData);
-      localStorage.setItem('userData', JSON.stringify(this.responseData));
-      this.navCtrl.push(TabsPage);
-    }, (err) => {
-      console.log(err);
-    });
-
+    if (this.authService.postData(this.userData, 'signup')) {
+      localStorage.setItem('userData', JSON.stringify(this.userData));
+      this.app.getRootNav().setRoot(TabsPage);
+    }
   }
 
 }

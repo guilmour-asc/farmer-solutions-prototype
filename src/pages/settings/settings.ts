@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, App } from 'ionic-angular';
 import { UserProfilePage } from '../user-profile/user-profile';
 import { AboutPage } from '../about/about';
-import { IntroPage } from '../intro/intro';
+import { LoginPage } from '../login/login';
 
 /**
  * Generated class for the SettingsPage page.
@@ -19,20 +19,22 @@ import { IntroPage } from '../intro/intro';
 export class SettingsPage {
   rootPage = UserProfilePage;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams,
+    public app: App) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SettingsPage');
   }
 
-  openPageAbout(){
+  openPageAbout() {
     this.navCtrl.push(AboutPage);
   }
 
-  logoff(){
-    localStorage.clear();
-    this.navCtrl.push(IntroPage);
+  logoff() {
+    localStorage.removeItem("userData");
+    this.app.getRootNav().setRoot(LoginPage);
   }
 
 }

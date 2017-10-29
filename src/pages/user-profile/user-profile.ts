@@ -14,12 +14,15 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'user-profile.html',
 })
 export class UserProfilePage {
+  public user = new Array<any>();
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad UserProfilePage');
+    this.user = JSON.parse(localStorage.getItem("userData"));
+    console.log(this.user);
   }
 
 }

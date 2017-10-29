@@ -18,9 +18,9 @@
 
 <ion-content padding>
   <ion-grid style="align-items: center">
-    <img src="assets/images/misc/doggo.jpg" class="home-avatar">
+    <img [src]="'assets/images/users/' + user.username + '.jpg'" class="home-avatar">
     <br>
-    <h1>Heracles</h1>
+    <h1>{{user.name}}</h1>
     <h6>Nível: 0</h6>
   </ion-grid>
 </ion-content>

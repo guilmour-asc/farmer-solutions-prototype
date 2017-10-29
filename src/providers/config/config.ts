@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 // Key-words to avoid bugs from typos...
 let configKeyword = "config";
+let userKeyword = "userData";
 
 /*
   Generated class for the ConfigProvider provider.
@@ -24,6 +25,10 @@ export class ConfigProvider {
 
   getConfigData(): any {
     return localStorage.getItem(configKeyword);
+  }
+
+  getUserData(): any {
+    return localStorage.getItem(userKeyword);
   }
 
   setConfigData(showSlide?: boolean, username?: string, name?: string) {

@@ -5,33 +5,32 @@
   Ionic pages and navigation.
 -->
 <ion-content padding class="vertical-align-content">
-  <ion-card color="background">
-    <ion-buttons start>
-      <button ion-button clear icon-only small color="danger">
-        <ion-icon name='close'></ion-icon>
-      </button>
-    </ion-buttons>
-    <h6 class="card-header">Insira seu nome de usuário e senha</h6>
-    <br>
-    <ion-list>
-      <ion-grid no-padding>
-        <ion-row>
-          <ion-item class="card-input">
-            <ion-label stacked>Nome de Usuário</ion-label>
-            <ion-input placeholder="user" [(ngModel)]="userData.username"></ion-input>
-          </ion-item>
-        </ion-row>
-        <ion-row>
-          <ion-item class="card-input">
-            <ion-label stacked>Senha</ion-label>
-            <ion-input type="password" placeholder="password" [(ngModel)]="userData.password"></ion-input>
-          </ion-item>
-        </ion-row>
-      </ion-grid>
-    </ion-list>
-    <br>
-    <br>
-    <br>
-    <button ion-button full clear>Entrar</button>
-  </ion-card>
+  <ion-grid no-padding style="align-items: center">
+    <ion-row>
+      <ion-card color="background">
+        <br>
+        <ion-card-header>Bem-vindo</ion-card-header>
+        <ion-list>
+          <ion-grid no-padding>
+            <ion-row>
+              <ion-item class="card-input">
+                <ion-label stacked>Nome de Usuário</ion-label>
+                <ion-input placeholder="user" [(ngModel)]="user.username"></ion-input>
+              </ion-item>
+            </ion-row>
+            <ion-row>
+              <ion-item class="card-input">
+                <ion-label stacked>Senha</ion-label>
+                <ion-input type="password" placeholder="password" [(ngModel)]="user.password"></ion-input>
+              </ion-item>
+            </ion-row>
+          </ion-grid>
+        </ion-list>
+        <button ion-button full clear (click)="login()">Entrar</button>
+      </ion-card>
+    </ion-row>
+    <ion-row>
+      <button ion-button round outline small (click)="goToSignUp()">Não estou Cadastrado!</button>
+    </ion-row>
+  </ion-grid>
 </ion-content>
