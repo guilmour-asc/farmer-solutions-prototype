@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 
-let API = 'http://localhost:3000';
+let API = 'http://localhost:3000/';
 /*
   Generated class for the AuthServiceProvider provider.
 
@@ -29,7 +29,11 @@ export class AuthServiceProvider {
 
   // Function to search for a user (authentication)...
   getUser(user) {
-    return this.http.get(API + `/users?username=${user["username"]}&password=${user["password"]}`);
+    return this.http.get(API + `users?username=${user["username"]}&password=${user["password"]}`);
+  }
+
+  getCategoryData(categoryId) {
+    return this.http.get(API + `categories/${categoryId}`);
   }
 
 }

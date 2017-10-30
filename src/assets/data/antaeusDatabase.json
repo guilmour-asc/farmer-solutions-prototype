@@ -106,7 +106,7 @@
               "sectorDescription": "Produção de Mudas",
               "sectorDepender": true,
               "sectorDependerQuestion": "Você cultiva mudas de cacau na propriedade?",
-              "sectorDependerAnswer": false,
+              "sectorDependerAnswer": true,
               "questions": [
                 {
                   "questionId": "5.1",
@@ -176,7 +176,7 @@
               "sectorDescription": "Armazenagem e Descarte de Recipientes Agroquímicos",
               "sectorDepender": true,
               "sectorDependerQuestion": "Você usa agroquímicos (pesticidas, herbicidas, fertilizantes) na propriedade?",
-              "sectorDependerAnswer": false,
+              "sectorDependerAnswer": true,
               "questions": [
                 {
                   "questionId": "7.1",
@@ -348,10 +348,16 @@
         "state": "MG",
         "country": "Brasil"
       },
+      "subscribedIn": [
+        {
+          "categoryId": 0
+        }
+      ],
       "creationDate": "2015-10-26T07:46:36.611Z",
       "lastUpdateDate": "2016-01-11T11:30:36.611Z",
       "lastLoginDate": "2016-01-11T10:55:36.611Z",
       "id": 0
     }
-  ]
+  ],
+  "questionnaireAnswers": []
 }

@@ -12,7 +12,7 @@ import { LoginPage } from '../login/login';
 @IonicPage()
 @Component({
   selector: 'page-intro',
-  templateUrl: 'intro.html'
+  templateUrl: 'intro.html',
 })
 export class IntroPage {
 

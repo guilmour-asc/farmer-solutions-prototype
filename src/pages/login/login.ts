@@ -20,7 +20,7 @@ import { SignupPage } from '../signup/signup';
   ]
 })
 export class LoginPage {
-  user = { username: "", password: "" };
+  user = { "username": "", "password": "" };
   public loader;
   public userData = new Array<any>();
 
@@ -55,7 +55,7 @@ export class LoginPage {
       console.log("biiitch "+error);
       this.loadingHide();
     }
-    )
+    );
   }
 
   goToSignUp() {

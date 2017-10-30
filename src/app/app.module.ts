@@ -20,6 +20,7 @@ import { CategoriesPageModule } from '../pages/categories/categories.module';
 import { LoginPageModule } from '../pages/login/login.module';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 import { SignupPageModule } from '../pages/signup/signup.module';
+import { QuestionnairePageModule } from '../pages/questionnaire/questionnaire.module';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { SignupPageModule } from '../pages/signup/signup.module';
     UserProfilePageModule,
     CategoriesPageModule,
     LoginPageModule,
-    SignupPageModule
+    SignupPageModule,
+    QuestionnairePageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
