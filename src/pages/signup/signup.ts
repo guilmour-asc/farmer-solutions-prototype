@@ -14,6 +14,9 @@ import { TabsPage } from '../tabs/tabs';
 @Component({
   selector: 'page-signup',
   templateUrl: 'signup.html',
+  providers: [
+    AuthServiceProvider
+  ]
 })
 export class SignupPage {
 

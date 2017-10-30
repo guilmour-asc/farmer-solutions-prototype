@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
-import { TabsPage } from '../tabs/tabs';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { LoginPage } from '../login/login';
 
 /**
  * Generated class for the IntroPage page.
@@ -12,7 +12,7 @@ import { TabsPage } from '../tabs/tabs';
 @IonicPage()
 @Component({
   selector: 'page-intro',
-  templateUrl: 'intro.html',
+  templateUrl: 'intro.html'
 })
 export class IntroPage {
 
@@ -32,54 +32,14 @@ export class IntroPage {
       description: "You can also learn techniques and tutorials for fire handling and avoidance of wildfires on the environment.",
       image: "assets/images/intro/earth-healing.png",
     }
-];
+  ];
 
   constructor(public navCtrl: NavController,
-    public navParams: NavParams,
-    public alertCtrl: AlertController) {
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad IntroPage');
+    public navParams: NavParams) {
   }
 
   goToMain() {
-    this.navCtrl.push(TabsPage)
-  }
-
-  loginPrompt() {
-    let prompt = this.alertCtrl.create({
-      title: 'Login',
-      message: "Insira seu nome de usuário e senha.",
-      inputs: [
-        {
-          name: 'username',
-          placeholder: 'Nome de Usuário'
-        },
-        {
-          name: 'password',
-          placeholder: 'Senha',
-          type: 'password'
-        }
-      ],
-      buttons: [
-        {
-          text: 'Cancelar',
-          handler: data => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Entrar',
-          handler: data => {
-            console.log('Login clicked');
-            console.log(`user is ${data.username}, password is a secret...`);
-            this.goToMain();
-          }
-        }
-      ]
-    });
-    prompt.present();
+    this.navCtrl.push(LoginPage);
   }
 
 }

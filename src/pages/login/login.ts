@@ -15,6 +15,9 @@ import { SignupPage } from '../signup/signup';
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
+  providers: [
+    AuthServiceProvider
+  ]
 })
 export class LoginPage {
   user = { username: "", password: "" };
