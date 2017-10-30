@@ -1,7 +1,338 @@
 {
+  "categories": [
+    {
+      "name": "Cacau",
+      "description": "Produção e Desenvolvimento sustentável de cacau",
+      "completion": 0,
+      "questionnaire": [
+        {
+          "pillar": "Informações Gerais",
+          "sectors": [
+            {
+              "sectorId": "A",
+              "sectorDescription": "Perfil do(a) Fazendeiro(a)",
+              "sectorDepender": false,
+              "questions": [
+                {
+                  "questionId": "A.1",
+                  "questionText": "Você se qualifica em qual perfil de produção?",
+                  "answerType": "options",
+                  "questionOptions": [
+                    {
+                      "option": "Eu tenho posse da terra"
+                    },
+                    {
+                      "option": "A terra é concedida por outro(a) proprietário(a)"
+                    },
+                    {
+                      "option": "Outro perfil"
+                    }
+                  ]
+                },
+                {
+                  "questionId": "A.2",
+                  "questionText": "Qual é a principal fonte de renda de sua família?",
+                  "answerType": "options",
+                  "questionOptions": [
+                    {
+                      "option": "Produção de cacau"
+                    },
+                    {
+                      "option": "Outro tipo de produção"
+                    },
+                    {
+                      "option": "Aposentadoria"
+                    },
+                    {
+                      "option": "Bolsa do governo, ou similar"
+                    },
+                    {
+                      "option": "Emprego assalariado"
+                    }
+                  ]
+                },
+                {
+                  "questionId": "A.3",
+                  "questionText": "Quantas pessoas de sua família vivem da renda da fazenda?",
+                  "answerType": "integer"
+                }
+              ]
+            },
+            {
+              "sectorId": "E",
+              "sectorDescription": "Uso destas Respostas",
+              "sectorDepender": false,
+              "questions": [
+                {
+                  "questionId": "E.1",
+                  "questionText": "Você concede permissão para envio de suas respostas à nossa equipe de pesquisa (de forma anônima)?",
+                  "answerType": "boolean"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "pillar": "Gerência da Fazenda",
+          "sectors": [
+            {
+              "sectorId": "1",
+              "sectorDescription": "Documentação de Propriedade da Fazenda",
+              "questions": [
+                {
+                  "questionId": "1.1",
+                  "questionText": "Eu tenho título definitivo de proprietário(a) em meu nome.",
+                  "answerType": "boolean"
+                },
+                {
+                  "questionId": "1.2",
+                  "questionText": "Eu tenho concessão para usar a terra.",
+                  "answerType": "boolean"
+                },
+                {
+                  "questionId": "1.3",
+                  "questionText": "Houve início a um processo de legalização ou transferência das terras.",
+                  "answerType": "boolean"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "pillar": "Produção",
+          "sectors": [
+            {
+              "sectorId": "5",
+              "sectorDescription": "Produção de Mudas",
+              "sectorDepender": true,
+              "sectorDependerQuestion": "Você cultiva mudas de cacau na propriedade?",
+              "sectorDependerAnswer": false,
+              "questions": [
+                {
+                  "questionId": "5.1",
+                  "questionText": "Eu identifico foco de pestes e doenças nas mudas.",
+                  "answerType": "boolean"
+                },
+                {
+                  "questionId": "5.2",
+                  "questionText": "Eu separo as mudas doentes das saudáveis.",
+                  "answerType": "boolean"
+                },
+                {
+                  "questionId": "5.3",
+                  "questionText": "Eu faço tratamentos específicos para evitar/controlar pestes e doenças nas mudas afetadas.",
+                  "answerType": "boolean"
+                },
+                {
+                  "questionId": "5.4",
+                  "questionText": "Eu identifico, no campo, os blocos com as mudas produzidas durante o ano.",
+                  "answerType": "boolean"
+                }
+              ]
+            },
+            {
+              "sectorId": "6",
+              "sectorDescription": "Controle de Pestes e Doenças",
+              "sectorDepender": false,
+              "questions": [
+                {
+                  "questionId": "6.1",
+                  "questionText": "Eu sei identificar ataque de pragas em minha plantação.",
+                  "answerType": "boolean"
+                },
+                {
+                  "questionId": "6.2",
+                  "questionDependence": "6.1",
+                  "questionText": "Eu visito periodicamente a plantação para identificar focos de vassoura-de-bruxa, monília, brocas-das-vagens e podridão-parda",
+                  "answerType": "boolean"
+                },
+                {
+                  "questionId": "6.3",
+                  "questionDependence": "6.1",
+                  "questionText": "Eu faço uma contagem das pragas para ver o nível de dano, e decido a melhor estratégia de controle.",
+                  "answerType": "boolean"
+                },
+                {
+                  "questionId": "6.4",
+                  "questionText": "Eu uso pesticidas/herbicidas para controlar pragas e doenças.",
+                  "answerType": "boolean"
+                },
+                {
+                  "questionId": "6.5",
+                  "questionDependence": "6.4",
+                  "questionText": "Eu faço aplicação preventiva para controlar pragas e doenças.",
+                  "answerType": "boolean"
+                },
+                {
+                  "questionId": "6.6",
+                  "questionDependence": "6.4",
+                  "questionText": "Eu faço um registro da aplicação (produtos usados e quantidades) em cada área de produção.",
+                  "answerType": "boolean"
+                }
+              ]
+            },
+            {
+              "sectorId": "7",
+              "sectorDescription": "Armazenagem e Descarte de Recipientes Agroquímicos",
+              "sectorDepender": true,
+              "sectorDependerQuestion": "Você usa agroquímicos (pesticidas, herbicidas, fertilizantes) na propriedade?",
+              "sectorDependerAnswer": false,
+              "questions": [
+                {
+                  "questionId": "7.1",
+                  "questionText": "Eu guardo os agroquímicos em um cômodo externo de minha casa.",
+                  "answerType": "boolean"
+                },
+                {
+                  "questionId": "7.2",
+                  "questionDependence": "7.1",
+                  "questionText": "O cômodo de armazenagem é bem-ventilado.",
+                  "answerType": "boolean"
+                },
+                {
+                  "questionId": "7.3",
+                  "questionDependence": "7.1",
+                  "questionText": "O chão do cômodo de armazenagem é à prova de vazamentos.",
+                  "answerType": "boolean"
+                },
+                {
+                  "questionId": "7.4",
+                  "questionDependence": "7.1",
+                  "questionText": "O cômodo de armazenagem fica sempre trancado, evitando entrada de crianças ou animais domésticos.",
+                  "answerType": "boolean"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "pillar": "Meio-Ambiente",
+          "sectors": [
+            {
+              "sectorId": "8",
+              "sectorDescription": "Proteção da Vida Selvagem",
+              "sectorDepender": false,
+              "questions": [
+                {
+                  "questionId": "8.1",
+                  "questionText": "Há caça de animais selvagens em minha propriedade.",
+                  "answerType": "boolean"
+                },
+                {
+                  "questionId": "8.2",
+                  "questionText": "A flora de minha propriedade é coletada para comércio.",
+                  "answerType": "boolean"
+                },
+                {
+                  "questionId": "8.3",
+                  "questionText": "Eu proíbo qualquer tipo de atividade predatória (caça ou coleta de flora) dentro de minha propriedade.",
+                  "answerType": "boolean"
+                },
+                {
+                  "questionId": "8.4",
+                  "questionText": "Eu mantenho um registro dos animais avistados em minha propriedade.",
+                  "answerType": "boolean"
+                },
+                {
+                  "questionId": "8.5",
+                  "questionText": "Eu aconselho os moradores/trabalhadores de minha propriedade sobre a importância de proteger a vida selvagem ameaçada de extinção.",
+                  "answerType": "boolean"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "pillar": "Social",
+          "sectors": [
+            {
+              "sectorId": "11",
+              "sectorDescription": "Medidas de Cuidado com a Saúde",
+              "sectorDepender": false,
+              "questions": [
+                {
+                  "questionId": "11.1",
+                  "questionText": "Os trabalhadores usam roupas e material de proteção.",
+                  "answerType": "boolean"
+                },
+                {
+                  "questionId": "11.2",
+                  "questionText": "Na propriedade, todos os aplicadores de agroquímicos têm treinamento.",
+                  "answerType": "boolean"
+                },
+                {
+                  "questionId": "11.3",
+                  "questionText": "Trabalhadores idosos (60+ anos) e grávidas podem aplicar agroquímicos.",
+                  "answerType": "boolean"
+                },
+                {
+                  "questionId": "11.4",
+                  "questionText": "Eu identifico as áreas onde foram aplicados agroquímicos, para prevenir entrada de pessoal nestas áreas.",
+                  "answerType": "boolean"
+                },
+                {
+                  "questionId": "11.5",
+                  "questionText": "Qualquer pessoa exposta aos agroquímicos recebe exames médicos específicos para checar seu estado de saúde.",
+                  "answerType": "boolean"
+                },
+                {
+                  "questionId": "11.6",
+                  "questionText": "Máquinas e equipamento agrícola são usados apenas por trabalhadores treinados.",
+                  "answerType": "boolean"
+                },
+                {
+                  "questionId": "11.7",
+                  "questionText": "Em caso de emergência, há material de primeiros socorros.",
+                  "answerType": "boolean"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "id": 0
+    },
+    {
+      "name": "Produção Têxtil",
+      "description": "Produção de Tecidos Variados",
+      "completion": 0,
+      "questionnaire": [
+        {
+          "pillar": "Informações Gerais",
+          "questions": [
+            {}
+          ]
+        },
+        {
+          "pillar": "Gerência da Fazenda",
+          "questions": [
+            {}
+          ]
+        },
+        {
+          "pillar": "Produção",
+          "questions": [
+            {}
+          ]
+        },
+        {
+          "pillar": "Meio-Ambiente",
+          "questions": [
+            {}
+          ]
+        },
+        {
+          "pillar": "Social",
+          "questions": [
+            {}
+          ]
+        }
+      ],
+      "id": 1
+    }
+  ],
   "users": [
     {
-      "id": 0,
       "username": "guilmour",
       "password": "guilmour",
       "name": "Guilmour ASC",
@@ -19,16 +350,7 @@
       },
       "creationDate": "2015-10-26T07:46:36.611Z",
       "lastUpdateDate": "2016-01-11T11:30:36.611Z",
-      "lastLoginDate": "2016-01-11T10:55:36.611Z"
-    }
-  ],
-  "categories": [
-    {
-      "name": "Cocoa",
-      "Description": "Sustainable and anti-damaging farming of cocoa",
-      "questions": [
-        {}
-      ],
+      "lastLoginDate": "2016-01-11T10:55:36.611Z",
       "id": 0
     }
   ]
