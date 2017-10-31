@@ -34,13 +34,13 @@
         <ion-col col-7>
           <ion-item>
             <ion-label color="primary" stacked>Telefone</ion-label>
-            <ion-input placeholder="(XX)XXXXX-XXXX" [(ngModel)]="userData.phone.phoneNumber"></ion-input>
+            <ion-input placeholder="(XX)XXXXX-XXXX" [(ngModel)]="userData.phoneNumber"></ion-input>
           </ion-item>
         </ion-col>
         <ion-col>
           <ion-item>
             <ion-label color="primary" stacked>Tipo</ion-label>
-            <ion-select interface="popover" [(ngModel)]="userData.phone.phoneType">
+            <ion-select interface="popover" [(ngModel)]="userData.phoneType">
               <ion-option value="Móvel">Móvel</ion-option>
               <ion-option value="Fixo">Fixo</ion-option>
             </ion-select>
@@ -73,27 +73,27 @@
       <ion-row>
         <ion-item>
           <ion-label color="primary" stacked>Endereço</ion-label>
-          <ion-input placeholder="Endereço" [(ngModel)]="userData.location.address"></ion-input>
+          <ion-input placeholder="Endereço" [(ngModel)]="userData.address"></ion-input>
         </ion-item>
       </ion-row>
       <ion-row align-items-end>
         <ion-col col-9>
           <ion-item>
             <ion-label color="primary" stacked>Cidade</ion-label>
-            <ion-input placeholder="Cidade" [(ngModel)]="userData.location.city"></ion-input>
+            <ion-input placeholder="Cidade" [(ngModel)]="userData.city"></ion-input>
           </ion-item>
         </ion-col>
         <ion-col>
           <ion-item>
             <ion-label color="primary" stacked>Estado</ion-label>
-            <ion-input placeholder="UF" [(ngModel)]="userData.location.state"></ion-input>
+            <ion-input placeholder="UF" [(ngModel)]="userData.state"></ion-input>
           </ion-item>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-item>
           <ion-label color="primary" stacked>País</ion-label>
-          <ion-input placeholder="País" [(ngModel)]="userData.location.country"></ion-input>
+          <ion-input placeholder="País" [(ngModel)]="userData.country"></ion-input>
         </ion-item>
       </ion-row>
     </ion-grid>

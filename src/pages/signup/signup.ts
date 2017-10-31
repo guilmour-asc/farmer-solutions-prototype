@@ -26,7 +26,8 @@ export class SignupPage {
     "address": "", "city": "", "state": "", "country": "",
     "creationDate": (new Date()).toISOString(),
     "lastUpdateDate": (new Date()).toISOString(),
-    "lastLoginDate": (new Date()).toISOString()
+    "lastLoginDate": (new Date()).toISOString(),
+    "subscribedIn": [{}]
   };
 
   constructor(public navCtrl: NavController,
