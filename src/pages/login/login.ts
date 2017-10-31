@@ -52,8 +52,9 @@ export class LoginPage {
       this.loadingHide();
       this.navCtrl.push(TabsPage);
     }, error => {
-      console.log("biiitch "+error);
+      console.log(error);
       this.loadingHide();
+      this.authService.toastForFailed(error["status"]);
     }
     );
   }

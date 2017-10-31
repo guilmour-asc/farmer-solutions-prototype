@@ -22,8 +22,8 @@ export class SignupPage {
 
   userData = {
     "username": "", "password": "", "name": "", "birthday": "", "email": "",
-    "phone": { "phoneType": "", "phoneNumber": "" },
-    "location": { "address": "", "city": "", "state": "", "country": "" },
+    "phoneNumber": "", "phoneType": "",
+    "address": "", "city": "", "state": "", "country": "",
     "creationDate": (new Date()).toISOString(),
     "lastUpdateDate": (new Date()).toISOString(),
     "lastLoginDate": (new Date()).toISOString()

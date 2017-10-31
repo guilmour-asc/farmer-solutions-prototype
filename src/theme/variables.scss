@@ -33,6 +33,7 @@ img.home-avatar{
   width:150px;
   height: 150px;
   border-radius: 50%;
+  margin: 0 auto;
 }
 
 
@@ -47,8 +48,8 @@ img.home-avatar{
 
 
 $colors: (
-  primary:    rgb(141, 131, 76),
-  secondary:  #4edf96,
+  primary:    rgb(116, 106, 66),
+  secondary:  #ad9bc5,
   danger:     #ff4949,
   light:      rgb(255, 255, 255),
   background: rgb(240, 236, 232),
@@ -59,6 +60,10 @@ $tabs-background: color($colors, background);
 $tabs-tab-color-inactive: rgba(0, 0, 0, 0.75);
 
 $toolbar-background: color($colors, background);
+.toast-container{
+  text-align: center;
+  background-color: color($colors, primary);
+}
 
 
 // App iOS Variables

@@ -16,11 +16,88 @@
 </ion-header>
 
 
-<ion-content padding>
-  <ion-grid style="align-items: center">
-    <img [src]="'assets/images/users/' + user.username + '.jpg'" class="home-avatar">
-    <br>
-    <h1>{{user.name}}</h1>
-    <h6>Nível: 0</h6>
+<ion-content>
+  <ion-grid>
+    <ion-card color="background">
+      <br>
+      <img [src]="'assets/images/users/' + user.username + '.jpg'" class="home-avatar">
+      <ion-card-header>
+        <b>{{user.name}}</b>
+      </ion-card-header>
+      <ion-row>
+        <ion-col>
+          <ion-item class="card-label">
+            <ion-label stacked color="primary">
+              <b>Nome de Usuário</b>
+            </ion-label>
+            <ion-label>
+              <b>{{user.username}}</b>
+            </ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item class="card-label">
+            <ion-label stacked color="primary">
+              <b>Nascimento</b>
+            </ion-label>
+            <ion-label>
+              <b>{{user.birthday}}</b>
+            </ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row align-items-end>
+        <ion-col col-auto>
+          <ion-item class="card-label">
+            <ion-label stacked color="primary">
+              <b>Telefone</b>
+            </ion-label>
+            <ion-label>
+              <b>{{user.phoneNumber}}</b>
+            </ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col col-auto>
+          <ion-item class="card-label">
+            <ion-label color="primary">
+              <i>{{user.phoneType}}</i>
+            </ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item class="card-label">
+            <ion-label stacked color="primary">
+              <b>E-mail</b>
+            </ion-label>
+            <ion-label>
+              <b>{{user.email}}</b>
+            </ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item class="card-label">
+            <ion-label stacked color="primary">
+              <b>Endereço</b>
+            </ion-label>
+            <ion-label>
+              <b>{{user.address}}</b>
+            </ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item class="card-label">
+            <ion-label>
+              <b>{{user.city}}, {{user.state}}, {{user.country}}</b>
+            </ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-card>
   </ion-grid>
 </ion-content>

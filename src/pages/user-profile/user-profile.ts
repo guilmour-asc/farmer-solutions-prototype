@@ -28,17 +28,6 @@ export class UserProfilePage {
 
   ionViewDidLoad() {
     this.user = JSON.parse(localStorage.getItem("userData"));
-
-    // this.authService.getCategoryData(0).subscribe(data => {
-    //   const response = (data as any);
-    //   const returnedObj = JSON.parse(response._body);
-    //   this.quest = returnedObj[0];
-    //   console.log(this.quest["questionnaire"][0].sectors[0]);
-    // }, error => {
-    //   console.log("biiitch " + error);
-    // }
-    // );
-
     console.log(this.user);
   }
 

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
+import { ToastController } from 'ionic-angular';
 
 let API = 'http://localhost:3000/';
 /*
@@ -12,8 +13,32 @@ let API = 'http://localhost:3000/';
 @Injectable()
 export class AuthServiceProvider {
 
-  constructor(public http: Http) {
+  constructor(public http: Http, public toastCtrl: ToastController) {
     console.log('Hello AuthServiceProvider Provider');
+  }
+
+  toastForFailed(errorNumber) {
+    let message = "";
+    switch (errorNumber) {
+      case 0:
+        message = "O Banco de Dados está inativo";
+        break;
+      case 400:
+        message = "Requisição inválida para o Banco de Dados";
+        break;
+      case 404:
+        message = "Não há este registro no Banco de Dados";
+        break;
+      default:
+        message = "Erro de conexão...";
+        break;
+    }
+    const toast = this.toastCtrl.create({
+      message: message,
+      duration: 2000,
+      position: 'middle'
+    });
+    toast.present();
   }
 
   // Function to insert a new user...
@@ -24,6 +49,7 @@ export class AuthServiceProvider {
       console.log(data['_body']);
     }, error => {
       console.log(error);
+      this.toastForFailed(error["status"]);
     });
   }
 
