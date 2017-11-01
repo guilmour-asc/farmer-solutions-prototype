@@ -19,6 +19,7 @@ import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 })
 export class QuestionnairePage {
 
+  public answer: boolean;
   public category = new Array<any>();
 
   constructor(public navCtrl: NavController,
@@ -26,17 +27,31 @@ export class QuestionnairePage {
     public authService: AuthServiceProvider) {
   }
 
-  ionViewDidLoad() {
-    this.authService.getCategoryData(0).subscribe(data => {
+  // goBack() {
+  //   this.navCtrl.pop();
+  // }
+
+  ionViewDidEnter() {
+    // this.category = new Array<any>();
+    console.log(this.navParams.get('category'));
+    this.authService.getCategoryData(this.navParams.get('category')).subscribe(data => {
       const response = (data as any);
       const returnedObj = JSON.parse(response._body);
-      this.category = returnedObj[0];
-      console.log(this.category["questionnaire"][0].sectors[0]);
+      this.category = returnedObj;
+      console.log(this.category);
     }, error => {
       console.log(error);
       this.authService.toastForFailed(error["status"]);
     }
     );
+  }
+
+  optionPressed(event){
+    console.log(event.originalTarget.value);
+  }
+
+  getAnswer(event){
+    console.log(event);
   }
 
 }

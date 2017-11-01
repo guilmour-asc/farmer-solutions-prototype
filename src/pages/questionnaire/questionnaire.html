@@ -7,12 +7,50 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Questionnaire</ion-title>
+    <ion-title>Auto-Avaliação · {{category.name}}</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-
+  <ion-grid style="align-items: stretch">
+    <ion-row>
+      <ion-card text-wrap *ngFor="let questionnaire of category.questionnaire">
+        <ion-card-header color="primary">{{questionnaire.pillar}}</ion-card-header>
+        <div padding *ngFor="let sector of questionnaire.sectors">
+          <p class="sector">
+            <br>
+            <b>{{sector.sectorId}}</b> · {{sector.sectorDescription}}</p>
+          <div *ngFor="let question of sector.questions">
+            <div no-padding [ngSwitch]=question.answerType>
+              <p>
+                <br>
+                <b>{{question.questionId}}</b>. {{question.questionText}}</p>
+              <br>
+              <ion-buttons *ngSwitchCase="'boolean'">
+                <button ion-button mini class="booleanButton" color="secondary" (click)="optionPressed($event)" color="secondary" value=true>
+                  <ion-icon name="checkmark"></ion-icon>
+                </button>
+                <button ion-button mini class="booleanButton" color="danger" (click)="optionPressed($event)" color="danger" value=false>
+                  <ion-icon name="close"></ion-icon>
+                </button>
+              </ion-buttons>
+              <ion-select *ngSwitchCase="'options'" interface="popover" placeholder="selecione" (ionChange)="getAnswer($event)" [(ngModel)]="answer">
+                <div *ngFor="let questionOptions of question.questionOptions">
+                  <ion-option value={{questionOptions.option}}>
+                    {{questionOptions.option}}
+                  </ion-option>
+                </div>
+              </ion-select>
+              <ion-input *ngSwitchCase="'integer'" type="number"></ion-input>
+            </div>
+          </div>
+        </div>
+      </ion-card>
+    </ion-row>
+    <ion-row>
+      <button ion-button full outline>Concluir</button>
+    </ion-row>
+  </ion-grid>
 </ion-content>

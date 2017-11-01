@@ -1,3 +1,21 @@
 page-questionnaire {
-
+    .booleanButton {
+        line-height: 20px !important;
+          width: 35px;
+        }
+    .card-header{
+        text-align: center;
+        text-transform: uppercase;
+        font-weight: bold;
+      }
+    .vertical-align-content > *{
+        display: flex;
+        align-content: center;
+        align-items: center;
+        vertical-align: middle;
+    }
+    .sector{
+        color: color($colors, primary);
+        text-transform: uppercase;
+    }
 }
