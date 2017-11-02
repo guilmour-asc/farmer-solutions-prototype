@@ -54,6 +54,8 @@ export class LoginPage {
     }, error => {
       console.log(error);
       this.loadingHide();
+      this.user.username = "";
+      this.user.password = "";
       this.authService.toastForFailed(error["status"]);
     }
     );

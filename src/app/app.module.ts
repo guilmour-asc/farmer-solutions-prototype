@@ -21,6 +21,7 @@ import { LoginPageModule } from '../pages/login/login.module';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 import { SignupPageModule } from '../pages/signup/signup.module';
 import { QuestionnairePageModule } from '../pages/questionnaire/questionnaire.module';
+import { MaskDirective } from '../directives/mask/mask';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { QuestionnairePageModule } from '../pages/questionnaire/questionnaire.mo
     AboutPage,
     ContactPage,
     HomePage,
-    TabsPage
+    TabsPage,
+    MaskDirective
   ],
   imports: [
     BrowserModule,

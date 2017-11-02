@@ -3,7 +3,8 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { ToastController } from 'ionic-angular';
 
-let API = 'http://localhost:3000/';
+// let API = 'http://localhost:3000/';
+let API = 'https://api.myjson.com/bins/9c0kz/';
 /*
   Generated class for the AuthServiceProvider provider.
 
@@ -45,7 +46,7 @@ export class AuthServiceProvider {
   postData(newUser, type) {
     var headers = new Headers({ "Accept": 'application/json', 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
-    return this.http.post(API + "/users", newUser, options).subscribe(data => {
+    return this.http.post(API + "users", newUser, options).subscribe(data => {
       console.log(data['_body']);
     }, error => {
       console.log(error);

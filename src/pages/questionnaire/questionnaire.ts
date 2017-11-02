@@ -19,7 +19,6 @@ import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 })
 export class QuestionnairePage {
 
-  public answer: boolean;
   public category = new Array<any>();
 
   constructor(public navCtrl: NavController,
@@ -42,6 +41,7 @@ export class QuestionnairePage {
     }, error => {
       console.log(error);
       this.authService.toastForFailed(error["status"]);
+      this.navCtrl.pop();
     }
     );
   }
@@ -52,6 +52,10 @@ export class QuestionnairePage {
 
   getAnswer(event){
     console.log(event);
+  }
+
+  getInput(event){
+    console.log(event.target.value);
   }
 
 }
