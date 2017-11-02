@@ -54,13 +54,17 @@ export class AuthServiceProvider {
     });
   }
 
-  // Function to search for a user (authentication)...
-  getUser(user) {
-    return this.http.get(API + `users?username=${user["username"]}&password=${user["password"]}`);
+  getDatabase(user) {
+    return this.http.get(API);
   }
 
-  getCategoryData(categoryId) {
-    return this.http.get(API + `categories/${categoryId}`);
-  }
+  // Function to search for a user (authentication)...
+  // getUser(user) {
+  //   return this.http.get(API);
+  // }
+
+  // getCategoryData(categoryId) {
+  //   return this.http.get(API + `categories/${categoryId}`);
+  // }
 
 }

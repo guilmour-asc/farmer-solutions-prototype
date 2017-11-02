@@ -42,15 +42,24 @@ export class LoginPage {
 
   login() {
     this.loadingShow();
-    this.authService.getUser(this.user).subscribe(data => {
+    this.authService.getDatabase(this.user).subscribe(data => {
       const response = (data as any);
       const returnedObj = JSON.parse(response._body);
-      this.userData = returnedObj[0];
+      for (let u of returnedObj["users"]) {
+        if (this.user.username == u["username"] && this.user.password == u["password"]) {
+          this.userData = u;
+        }
+      }
       if (this.userData) {
         localStorage.setItem('userData', JSON.stringify(this.userData));
+        this.loadingHide();
+        this.navCtrl.push(TabsPage);
+      } else {
+        this.loadingHide();
+        this.user.username = "";
+        this.user.password = "";
+        this.authService.toastForFailed(404);
       }
-      this.loadingHide();
-      this.navCtrl.push(TabsPage);
     }, error => {
       console.log(error);
       this.loadingHide();

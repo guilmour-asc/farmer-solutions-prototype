@@ -33,7 +33,7 @@ export class QuestionnairePage {
   ionViewDidEnter() {
     // this.category = new Array<any>();
     console.log(this.navParams.get('category'));
-    this.authService.getCategoryData(this.navParams.get('category')).subscribe(data => {
+    this.authService.getDatabase(this.navParams.get('category')).subscribe(data => {
       const response = (data as any);
       const returnedObj = JSON.parse(response._body);
       this.category = returnedObj;
