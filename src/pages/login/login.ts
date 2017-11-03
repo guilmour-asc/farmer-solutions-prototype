@@ -22,7 +22,7 @@ import { SignupPage } from '../signup/signup';
 export class LoginPage {
   user = { "username": "", "password": "" };
   public loader;
-  public userData = new Array<any>();
+  public userData: any;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,

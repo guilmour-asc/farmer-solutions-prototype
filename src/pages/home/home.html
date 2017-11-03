@@ -13,8 +13,8 @@
           <ion-item class="card-input">
             <ion-label color="primary" stacked>Categoria</ion-label>
             <ion-select interface="popover" placeholder="selecione" (ionChange)="buttonEnableOrNot()" [(ngModel)]="choice">
-              <ion-option value=8>Cacau</ion-option>
-              <ion-option value=9>Produção Têxtil</ion-option>
+              <ion-option *ngFor="let category of userCategories.subscribedIn" value={{category.categoryId}}>{{category.categoryName}}</ion-option>
+              <!-- <ion-option value=9>Produção Têxtil</ion-option> -->
             </ion-select>
           </ion-item>
         </ion-col>

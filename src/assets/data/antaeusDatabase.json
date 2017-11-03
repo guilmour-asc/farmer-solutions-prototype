@@ -349,7 +349,8 @@
       "lastLoginDate": "2016-01-11T10:55:36.611Z",
       "subscribedIn": [
         {
-          "categoryId": 0
+          "categoryId": 8,
+          "categoryName": "Cacau"
         }
       ],
       "id": 0

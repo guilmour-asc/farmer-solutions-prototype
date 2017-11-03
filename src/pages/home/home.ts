@@ -8,10 +8,16 @@ import { QuestionnairePage } from '../questionnaire/questionnaire';
 })
 export class HomePage {
   public page = QuestionnairePage;
+  public userCategories = Array<any>();
   public choice;
   public enabler: boolean = false;
 
   constructor(public navCtrl: NavController) {
+  }
+
+  ionViewDidLoad() {
+    this.userCategories = JSON.parse(localStorage.getItem("userData"));
+    console.log(this.userCategories["subscribedIn"]);
   }
 
   buttonEnableOrNot() {
@@ -24,7 +30,7 @@ export class HomePage {
 
   goToQuestionnaire() {
     console.log(this.choice);
-    this.navCtrl.push(QuestionnairePage, {category: this.choice});
+    this.navCtrl.push(QuestionnairePage, { category: this.choice });
   }
 
 }

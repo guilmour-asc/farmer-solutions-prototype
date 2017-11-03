@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 
 /**
@@ -19,43 +19,62 @@ import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 })
 export class QuestionnairePage {
 
+  public loader;
   public category = new Array<any>();
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
-    public authService: AuthServiceProvider) {
+    public authService: AuthServiceProvider,
+    public loadingCtrl: LoadingController) {
   }
 
   // goBack() {
   //   this.navCtrl.pop();
   // }
 
+  loadingShow() {
+    this.loader = this.loadingCtrl.create({
+      content: "Aguarde, por favor..."
+    });
+    this.loader.present();
+  }
+
+  loadingHide() {
+    this.loader.dismiss();
+  }
+
   ionViewDidEnter() {
-    // this.category = new Array<any>();
+    this.loadingShow();
     console.log(this.navParams.get('category'));
     this.authService.getDatabase(this.navParams.get('category')).subscribe(data => {
       const response = (data as any);
       const returnedObj = JSON.parse(response._body);
-      this.category = returnedObj;
+      for (let c of returnedObj["categories"]) {
+        if(c["id"] == this.navParams.get('category')){
+          this.category = c;
+        }
+      }
+      this.loadingHide();
       console.log(this.category);
     }, error => {
       console.log(error);
       this.authService.toastForFailed(error["status"]);
+      this.loadingHide();
       this.navCtrl.pop();
     }
     );
   }
 
-  optionPressed(event){
+  optionPressed(event) {
     console.log(event.originalTarget.value);
   }
 
-  getAnswer(event){
+  getAnswer(event) {
     console.log(event);
   }
 
-  getInput(event){
-    console.log(event.target.value);
+  getInput(event) {
+    console.log(event._value);
   }
 
 }
