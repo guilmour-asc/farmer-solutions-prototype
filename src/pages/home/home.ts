@@ -30,7 +30,7 @@ export class HomePage {
 
   goToQuestionnaire() {
     console.log(this.choice);
-    this.navCtrl.push(QuestionnairePage, { category: this.choice });
+    this.navCtrl.push(QuestionnairePage, { username: this.userCategories["username"], category: this.choice });
   }
 
 }

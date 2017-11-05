@@ -11,7 +11,6 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { HttpModule } from '@angular/http';
-import { FeedPageModule } from '../pages/feed/feed.module';
 import { IntroPageModule } from '../pages/intro/intro.module';
 import { ConfigProvider } from '../providers/config/config';
 import { SettingsPageModule } from '../pages/settings/settings.module';
@@ -22,6 +21,7 @@ import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 import { SignupPageModule } from '../pages/signup/signup.module';
 import { QuestionnairePageModule } from '../pages/questionnaire/questionnaire.module';
 import { MaskDirective } from '../directives/mask/mask';
+import { LevelPageModule } from '../pages/level/level.module';
 
 @NgModule({
   declarations: [
@@ -35,7 +35,6 @@ import { MaskDirective } from '../directives/mask/mask';
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    FeedPageModule,
     IntroPageModule,
     HttpModule,
     SettingsPageModule,
@@ -43,7 +42,8 @@ import { MaskDirective } from '../directives/mask/mask';
     CategoriesPageModule,
     LoginPageModule,
     SignupPageModule,
-    QuestionnairePageModule
+    QuestionnairePageModule,
+    LevelPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -56,9 +56,9 @@ import { MaskDirective } from '../directives/mask/mask';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
     ConfigProvider,
     AuthServiceProvider,
   ]
 })
-export class AppModule {}
+export class AppModule { }

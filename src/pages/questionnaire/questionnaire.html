@@ -30,21 +30,21 @@
                   <b>{{question.questionId}}</b>. {{question.questionText}}</p>
                 <br>
                 <ion-buttons *ngSwitchCase="'boolean'">
-                  <button ion-button mini class="booleanButton" color="secondary" (click)="optionPressed($event)" color="secondary" value=true>
+                  <button ion-button mini class="booleanButton" color="secondary" (click)="getBoolean(question.questionId, question.questionText, $event)" color="secondary" value=true>
                     <ion-icon name="checkmark"></ion-icon>
                   </button>
-                  <button ion-button mini class="booleanButton" color="danger" (click)="optionPressed($event)" color="danger" value=false>
+                  <button ion-button mini class="booleanButton" color="danger" (click)="getBoolean(question.questionId, question.questionText, $event)" color="danger" value=false>
                     <ion-icon name="close"></ion-icon>
                   </button>
                 </ion-buttons>
                 <div *ngSwitchCase="'options'">
-                  <ion-select interface="popover" placeholder="selecione" (ionChange)="getAnswer($event)">
+                  <ion-select interface="popover" placeholder="selecione" (ionChange)="getOption(question.questionId, question.questionText, $event)">
                     <ion-option text-wrap *ngFor="let questionOptions of question.questionOptions" value={{questionOptions.option}}>
                       {{questionOptions.option}}
                     </ion-option>
                   </ion-select>
                 </div>
-                <ion-input *ngSwitchCase="'integer'" type="number" (ionBlur)="getInput($event)"></ion-input>
+                <ion-input *ngSwitchCase="'integer'" type="number" (ionBlur)="getInput(question.questionId, question.questionText, $event)" placeholder="quantidade"></ion-input>
               </ion-col>
             </ion-row>
           </div>
@@ -52,7 +52,7 @@
       </ion-card>
     </ion-row>
     <ion-row>
-      <button ion-button full outline>Concluir</button>
+      <button ion-button full outline (click)="storeAnswers()">Concluir</button>
     </ion-row>
   </ion-grid>
 </ion-content>

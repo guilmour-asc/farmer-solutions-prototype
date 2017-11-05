@@ -21,6 +21,16 @@ export class QuestionnairePage {
 
   public loader;
   public category = new Array<any>();
+  public answers = {
+    "username": this.navParams.get('username'),
+    "category": this.navParams.get('category'),
+    "list": []
+  };
+  public answerForm = {
+    "questionId": "",
+    "questionText": "",
+    "questionAnswer": ""
+  };
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -50,7 +60,7 @@ export class QuestionnairePage {
       const response = (data as any);
       const returnedObj = JSON.parse(response._body);
       for (let c of returnedObj["categories"]) {
-        if(c["id"] == this.navParams.get('category')){
+        if (c["id"] == this.navParams.get('category')) {
           this.category = c;
         }
       }
@@ -65,16 +75,61 @@ export class QuestionnairePage {
     );
   }
 
-  optionPressed(event) {
-    console.log(event.originalTarget.value);
+  /* Function to clear the Form of the answer,
+  otherwise, the answer list becomes a list of same items... */
+  public cleanAnswerForm() {
+    return {
+      "questionId": "",
+      "questionText": "",
+      "questionAnswer": ""
+    };
   }
 
-  getAnswer(event) {
-    console.log(event);
+  /* Everytime I answer a question, this function verifies (and updates)
+     the answer on the Answers List, avoiding repeats of questions*/
+  answersListControl(questionId) {
+    for (var i = 0; i < this.answers.list.length; i++) {
+      if (this.answers.list[i]["questionId"] == questionId) {
+        this.answers.list.splice(i, 1);
+      }
+    }
   }
 
-  getInput(event) {
-    console.log(event._value);
+  getBoolean(questionId, questionText, event) {
+    this.answerForm = this.cleanAnswerForm();
+    this.answerForm.questionId = questionId;
+    this.answerForm.questionText = questionText;
+    this.answerForm.questionAnswer = event.originalTarget.value;
+    this.answersListControl(this.answerForm.questionId);
+    this.answers.list.push(this.answerForm);
+    console.log(this.answers);
+  }
+
+  getOption(questionId, questionText, event) {
+    this.answerForm = this.cleanAnswerForm();
+    this.answerForm.questionId = questionId;
+    this.answerForm.questionText = questionText;
+    this.answerForm.questionAnswer = event;
+    this.answersListControl(this.answerForm.questionId);
+    this.answers.list.push(this.answerForm);
+    console.log(this.answers);
+  }
+
+  getInput(questionId, questionText, event) {
+    this.answerForm = this.cleanAnswerForm();
+    this.answerForm.questionId = questionId;
+    this.answerForm.questionText = questionText;
+    this.answerForm.questionAnswer = event._value;
+    this.answersListControl(this.answerForm.questionId);
+    this.answers.list.push(this.answerForm);
+    console.log(this.answers);
+  }
+
+  storeAnswers() {
+    if (this.answers.list.length !== 0) {
+      localStorage.setItem('answers', JSON.stringify(this.answers));
+      this.navCtrl.pop();
+    }
   }
 
 }

@@ -1,0 +1,34 @@
+<!--
+  Generated template for the LevelPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Nível</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-card color="background">
+    <br>
+    <img [src]="'assets/images/levels/level-4.png'" style="width:100px; height: 100px; margin: 0 auto;">
+    <ion-card-header color="primary">
+      <b>Categorias</b>
+    </ion-card-header>
+    <ion-list>
+      <ion-item class="card-label">
+        Cacau
+        <ion-icon item-end *ngFor="let number of [0,1,2,3]" color="primary" name="star"></ion-icon>
+      </ion-item>
+      <ion-item class="card-label">
+        Café
+        <ion-icon item-end *ngFor="let number of [0]" color="primary" name="star"></ion-icon>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+</ion-content>

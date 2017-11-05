@@ -1,13 +1,23 @@
 page-intro {
+    .scroll-content {
+        display: flex;
+        flex-direction: column;
+    
+        ion-slides {
+            display: flex;
+    }
+    }
     h2.slider-title{
-        color: rgba(0, 0, 0, 0.5);
-        text-shadow: 1px 1px 1px #ffffff;
+        font-size: 20px;
+        color: color($colors, primary);
+        text-shadow: 1px 1px 1px #cfc48e;
     }
     img.slider-img{
         width: 150px;
         height: 100%;
     }
     p.slider-text{
-        color:rgba(0, 0, 0, 0.75);
+        font-size: 15px;
+        color: rgba(0, 0, 0, 0.75);
     }
 }

@@ -1,0 +1,10 @@
+page-level {
+    .card-header{
+        text-align: center;
+        text-transform: uppercase;
+        color: color($colors, background);
+    }
+    .card-label{
+        background-color: color($colors, background);
+    }
+}
