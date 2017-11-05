@@ -2,5 +2,7 @@
   "name": "farmer-solutions-prototype",
   "app_id": "",
   "type": "ionic-angular",
-  "integrations": {}
+  "integrations": {
+    "cordova": {}
+  }
 }
