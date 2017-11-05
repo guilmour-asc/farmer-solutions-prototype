@@ -4,7 +4,7 @@ import 'rxjs/add/operator/map';
 import { ToastController } from 'ionic-angular';
 
 // let API = 'http://localhost:3000/';
-let API = 'https://api.myjson.com/bins/j4fb7';
+let API = 'https://api.myjson.com/bins/i95m7';
 /*
   Generated class for the AuthServiceProvider provider.
 

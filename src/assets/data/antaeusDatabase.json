@@ -350,7 +350,8 @@
       "subscribedIn": [
         {
           "categoryId": 8,
-          "categoryName": "Cacau"
+          "categoryName": "Cacau",
+          "categoryLevel": 3
         }
       ],
       "id": 0

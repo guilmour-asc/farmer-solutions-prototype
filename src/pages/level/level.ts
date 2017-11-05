@@ -23,6 +23,11 @@ export class LevelPage {
   ionViewDidLoad() {
     this.user = JSON.parse(localStorage.getItem("userData"));
     console.log(this.user);
+    console.log(Array.from(Array(this.user["subscribedIn"][0]["categoryLevel"]).keys()));
+  }
+
+  starQuantity(N){
+    return Array.from(Array(N).keys());
   }
 
 }

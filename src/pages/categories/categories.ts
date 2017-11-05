@@ -22,7 +22,7 @@ export class CategoriesPage {
 
   openActions() {
     let actionSheet = this.actionsheetCtrl.create({
-      title: 'Albums',
+      title: 'Ações de Categoria',
       cssClass: 'action-sheets-basic-page',
       buttons: [
         {

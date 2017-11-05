@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, App } from 'ionic-angular';
 import { UserProfilePage } from '../user-profile/user-profile';
 import { AboutPage } from '../about/about';
 import { LoginPage } from '../login/login';
+import { ContactPage } from '../contact/contact';
 
 /**
  * Generated class for the SettingsPage page.
@@ -30,6 +31,10 @@ export class SettingsPage {
 
   openPageAbout() {
     this.navCtrl.push(AboutPage);
+  }
+
+  openPageContact() {
+    this.navCtrl.push(ContactPage);
   }
 
   logoff() {
