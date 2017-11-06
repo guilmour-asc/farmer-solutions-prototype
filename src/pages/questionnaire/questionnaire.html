@@ -30,10 +30,12 @@
                   <b>{{question.questionId}}</b>. {{question.questionText}}</p>
                 <br>
                 <ion-buttons *ngSwitchCase="'boolean'">
-                  <button ion-button mini class="booleanButton" color="secondary" (click)="getBoolean(question.questionId, question.questionText, $event)" color="secondary" value=true>
+                  <button ion-button mini class="booleanButton" color="secondary" (click)="getBoolean(question.questionId, question.questionText, $event)"
+                    color="secondary" value=true>
                     <ion-icon name="checkmark"></ion-icon>
                   </button>
-                  <button ion-button mini class="booleanButton" color="danger" (click)="getBoolean(question.questionId, question.questionText, $event)" color="danger" value=false>
+                  <button ion-button mini class="booleanButton" color="danger" (click)="getBoolean(question.questionId, question.questionText, $event)"
+                    color="danger" value=false>
                     <ion-icon name="close"></ion-icon>
                   </button>
                 </ion-buttons>
@@ -44,15 +46,18 @@
                     </ion-option>
                   </ion-select>
                 </div>
-                <ion-input *ngSwitchCase="'integer'" type="number" (ionBlur)="getInput(question.questionId, question.questionText, $event)" placeholder="quantidade"></ion-input>
+                <ion-input *ngSwitchCase="'integer'" type="number" (input)="getInput(question.questionId, question.questionText, $event)"
+                  placeholder="quantidade"></ion-input>
               </ion-col>
             </ion-row>
           </div>
         </ion-grid>
       </ion-card>
     </ion-row>
-    <ion-row>
-      <button ion-button full outline (click)="storeAnswers()">Concluir</button>
-    </ion-row>
   </ion-grid>
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <button ion-button full clear (click)="storeAnswers()">Concluir</button>
+  </ion-toolbar>
+</ion-footer>

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, ToastController, AlertController } from 'ionic-angular';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 
 /**
@@ -21,6 +21,7 @@ export class QuestionnairePage {
 
   public loader;
   public category = new Array<any>();
+  public questionQuantity = 0;
   public answers = {
     "username": this.navParams.get('username'),
     "category": this.navParams.get('category'),
@@ -34,6 +35,8 @@ export class QuestionnairePage {
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
+    public toastCtrl: ToastController,
+    public alertCtrl: AlertController,
     public authService: AuthServiceProvider,
     public loadingCtrl: LoadingController) {
   }
@@ -66,6 +69,14 @@ export class QuestionnairePage {
       }
       this.loadingHide();
       console.log(this.category);
+      // Counting how many questions...
+      for (var i = 0; i < this.category["questionnaire"].length; i++) {
+        for (var j = 0; j < this.category["questionnaire"][i]["sectors"].length; j++) {
+          for (var k = 0; k < this.category["questionnaire"][i]["sectors"][j]["questions"].length; k++) {
+            this.questionQuantity++;
+          }
+        }
+      }
     }, error => {
       console.log(error);
       this.authService.toastForFailed(error["status"]);
@@ -73,6 +84,29 @@ export class QuestionnairePage {
       this.navCtrl.pop();
     }
     );
+  }
+
+  promptIncompleteQuestionnaire() {
+    let prompt = this.alertCtrl.create({
+      title: 'Questionário Incompleto',
+      message: `Você respondeu <b>${this.answers.list.length}</b> de <b>${this.questionQuantity}</b> perguntas.<br>Deseja sair do questionário?`,
+      buttons: [
+        {
+          text: 'Não',
+          handler: data => {
+            
+          }
+        },
+        {
+          text: 'Sim',
+          handler: data => {
+            localStorage.setItem('answers', JSON.stringify(this.answers));
+            this.navCtrl.pop();
+          }
+        }
+      ]
+    });
+    prompt.present();
   }
 
   /* Function to clear the Form of the answer,
@@ -119,7 +153,7 @@ export class QuestionnairePage {
     this.answerForm = this.cleanAnswerForm();
     this.answerForm.questionId = questionId;
     this.answerForm.questionText = questionText;
-    this.answerForm.questionAnswer = event._value;
+    this.answerForm.questionAnswer = event.target.value;
     this.answersListControl(this.answerForm.questionId);
     this.answers.list.push(this.answerForm);
     console.log(this.answers);
@@ -127,8 +161,20 @@ export class QuestionnairePage {
 
   storeAnswers() {
     if (this.answers.list.length !== 0) {
-      localStorage.setItem('answers', JSON.stringify(this.answers));
-      this.navCtrl.pop();
+      if (this.answers.list.length < this.questionQuantity) {
+        this.promptIncompleteQuestionnaire();
+      } else {
+        localStorage.setItem('answers', JSON.stringify(this.answers));
+        this.navCtrl.pop();
+      }
+
+    } else {
+      let toast = this.toastCtrl.create({
+        message: "Você não respondeu nenhuma questão...",
+        duration: 2000,
+        position: 'middle'
+      });
+      toast.present();
     }
   }
 
