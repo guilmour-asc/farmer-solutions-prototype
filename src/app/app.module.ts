@@ -34,7 +34,7 @@ import { LevelPageModule } from '../pages/level/level.module';
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp, { tabsHideOnSubPages: true }),
     IntroPageModule,
     HttpModule,
     SettingsPageModule,
