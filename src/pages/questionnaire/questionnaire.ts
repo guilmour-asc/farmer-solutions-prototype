@@ -99,7 +99,7 @@ export class QuestionnairePage {
     this.answerForm = this.cleanAnswerForm();
     this.answerForm.questionId = questionId;
     this.answerForm.questionText = questionText;
-    this.answerForm.questionAnswer = event.originalTarget.value;
+    this.answerForm.questionAnswer = event.target.value;
     this.answersListControl(this.answerForm.questionId);
     this.answers.list.push(this.answerForm);
     console.log(this.answers);
