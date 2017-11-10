@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, App } from 'ionic-angular';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import { TabsPage } from '../tabs/tabs';
 import { SignupPage } from '../signup/signup';
@@ -27,7 +27,8 @@ export class LoginPage {
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public authService: AuthServiceProvider,
-    public loadingCtrl: LoadingController) { }
+    public loadingCtrl: LoadingController,
+    public app: App) { }
 
   loadingShow() {
     this.loader = this.loadingCtrl.create({
@@ -53,7 +54,7 @@ export class LoginPage {
       if (this.userData) {
         localStorage.setItem('userData', JSON.stringify(this.userData));
         this.loadingHide();
-        this.navCtrl.push(TabsPage);
+        this.app.getRootNav().setRoot(TabsPage);
       } else {
         this.loadingHide();
         this.user.username = "";
