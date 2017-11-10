@@ -25,11 +25,9 @@
         </ion-col>
         <ion-col>
           <ion-item class="card-input">
-            <ion-fab center middle>
-              <button ion-fab mini [disabled]="!enabler" (click)="goToQuestionnaire()">
-                <ion-icon name="arrow-forward"></ion-icon>
-              </button>
-            </ion-fab>
+            <button ion-button round style="height: 40px; width: 40px;" [disabled]="!enabler" (click)="goToQuestionnaire()">
+              <ion-icon name="arrow-forward"></ion-icon>
+            </button>
           </ion-item>
         </ion-col>
       </ion-row>
