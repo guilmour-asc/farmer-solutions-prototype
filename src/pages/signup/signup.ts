@@ -36,17 +36,12 @@ export class SignupPage {
     public app: App) {
   }
 
-  goToMain() {
-    this.navCtrl.push(TabsPage);
-  }
-  goBack() {
-    this.navCtrl.pop();
-  }
-
   signup() {
     if (this.authService.postData(this.userData, 'signup')) {
       localStorage.setItem('userData', JSON.stringify(this.userData));
-      this.app.getRootNav().setRoot(TabsPage);
+      // this.app.getRootNav().setRoot(TabsPage);
+      this.authService.toastForSuccess("signup");
+      this.navCtrl.pop();
     }
   }
 

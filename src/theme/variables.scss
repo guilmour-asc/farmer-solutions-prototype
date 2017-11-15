@@ -60,9 +60,17 @@ $tabs-background: color($colors, background);
 $tabs-tab-color-inactive: rgba(0, 0, 0, 0.75);
 
 $toolbar-background: color($colors, background);
-.toast-container{
-  text-align: center;
-  background-color: color($colors, primary);
+.toast-fail{
+  .toast-container{
+    text-align: center;
+    background-color: color($colors, primary);
+  }
+}
+.toast-success{
+  .toast-container{
+    text-align: center;
+    background-color: color($colors, secondary);
+  }
 }
 
 

@@ -22,7 +22,7 @@ export class AuthServiceProvider {
     let message = "";
     switch (errorNumber) {
       case 0:
-        message = "O Banco de Dados está inativo";
+        message = "Não há conexão com o Banco de Dados";
         break;
       case 400:
         message = "Requisição inválida para o Banco de Dados";
@@ -37,7 +37,27 @@ export class AuthServiceProvider {
     const toast = this.toastCtrl.create({
       message: message,
       duration: 2000,
-      position: 'middle'
+      position: 'middle',
+      cssClass: "toast-fail"
+    });
+    toast.present();
+  }
+
+  toastForSuccess(type) {
+    let message = "";
+    switch (type) {
+      case "signup":
+        message = "O usuário foi criado!";
+        break;
+      case "questionnaire":
+        message = "O questionário foi totalmente respondido!";
+        break;
+    }
+    const toast = this.toastCtrl.create({
+      message: message,
+      duration: 2000,
+      position: 'middle',
+      cssClass: "toast-success"
     });
     toast.present();
   }
